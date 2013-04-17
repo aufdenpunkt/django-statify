@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib import messages
 from django.contrib.sites.models import Site
+from django.utils.translation import ugettext as _
 
 # Project imports
 from models import ExternalURL, URL, Release, DeploymentHost
@@ -33,12 +34,12 @@ class ReleaseAdmin(admin.ModelAdmin):
 
     def download(self, instance):
         return u'<a href="%s%s" target="_blank">Download</a>' % (settings.STATIC_URL, instance.archive)
-    download.short_description = u'Archiv'
+    download.short_description = _('Archive')
     download.allow_tags = True
 
     def deploy(self, instance):
-        return u'<a href="/admin/statify/release/%s/deploy/select/">Deploy</a>' % (instance.id)
-    deploy.short_description = u'Staging'
+        return u'<a href="/admin/statify/release/%s/deploy/select/">Deploy this</a>' % (instance.id)
+    deploy.short_description = _('Deployment')
     deploy.allow_tags = True
 
     def delete_releases(modeladmin, request, queryset):
@@ -63,10 +64,10 @@ class DeploymentHostAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('type', 'title', 'url',),
         }),
-        (u'Server', {
+        (_('Server'), {
             'fields': ('host', 'path',),
         }),
-        (u'Authentifizierung', {
+        (_('Authentication'), {
             'fields': ('authtype', 'user', 'password',),
             'classes': ('wide',)
         }),
@@ -82,18 +83,18 @@ class URLForm(forms.ModelForm):
     def clean(self):
         # Check if url is entered
         if not 'url' in self.cleaned_data or self.cleaned_data['url'] is '':
-            raise forms.ValidationError(u'Das Feld URL muss ausgefüllt werden.')
+            raise forms.ValidationError(_('The URL field must be filled.'))
 
         cleaned_url = self.cleaned_data['url']
         url = u'http://%s%s' % (CURRENT_SITE, cleaned_url)
 
         # Check if url is entered
         if len(URL.objects.filter(url=cleaned_url).exclude(pk=self.instance.pk)) > 0:
-            raise forms.ValidationError('Die eingegebene URL existiert bereits.')
+            raise forms.ValidationError(_('The URL you entered already exists.'))
 
         # Check if url starts with a slash
         if not cleaned_url.startswith('/'):
-            raise forms.ValidationError(u'Die eingegebene URL muss mit einem / beginnen.')
+            raise forms.ValidationError(_('The URL you entered must begin with "/".'))
 
         request = requests.get(url)
 
@@ -101,7 +102,7 @@ class URLForm(forms.ModelForm):
         if request.status_code in VALID_CODES:
             return self.cleaned_data
         else:
-            raise forms.ValidationError(u'Bitte geben Sie eine gültige URL ein. Die URL "%s" ist nicht erreichbar. Statuscode: %s' % (url, request.status_code))
+            raise forms.ValidationError(_('Please enter a valid URL. The URL %s is not available. Status code: %s') % (url, request.status_code))
 
 
 def validate_urls(modeladmin, request, queryset):
@@ -115,7 +116,7 @@ def validate_urls(modeladmin, request, queryset):
             u.is_valid = False
 
         u.save()
-validate_urls.short_description = u'Ausgewählte URLs überprüfen'
+validate_urls.short_description = _('Check selected URLs')
 
 
 class URLAdmin(admin.ModelAdmin):
@@ -127,7 +128,7 @@ class URLAdmin(admin.ModelAdmin):
     ordering = ('url',)
 
     def preview_url(self, instance):
-        return u'<a href="http://%s%s" target="_blank" rel="nofollow">Vorschau</a>' % (CURRENT_SITE, instance.url)
+        return _('<a href="http://%s%s" target="_blank" rel="nofollow">Preview</a>') % (CURRENT_SITE, instance.url)
     preview_url.short_description = u''
     preview_url.allow_tags = True
 
@@ -144,7 +145,7 @@ def validate_external_urls(modeladmin, request, queryset):
             u.is_valid = False
 
         u.save()
-validate_external_urls.short_description = u'Ausgewählte External URLs überprüfen'
+validate_external_urls.short_description = _('Check selected external URLs')
 
 
 class ExternalURLForm(forms.ModelForm):
@@ -154,14 +155,14 @@ class ExternalURLForm(forms.ModelForm):
     def clean(self):
         # Check if url is entered
         if not 'url' in self.cleaned_data or self.cleaned_data['url'] is '':
-            raise forms.ValidationError(u'Das Feld URL muss ausgefüllt werden.')
+            raise forms.ValidationError(_('The URL field must be filled.'))
 
         cleaned_url = self.cleaned_data['url']
         url = u'%s' % (cleaned_url)
 
         # Check if url already exists
         if len(URL.objects.filter(url=cleaned_url).exclude(pk=self.instance.pk)) > 0:
-            raise forms.ValidationError('Die eingegebene URL existiert bereits.')
+            raise forms.ValidationError(_('The URL you entered already exists.'))
 
         request = requests.get(url)
 
@@ -169,7 +170,7 @@ class ExternalURLForm(forms.ModelForm):
         if request.status_code in VALID_CODES:
             return self.cleaned_data
         else:
-            raise forms.ValidationError(u'Bitte geben Sie eine gültige URL ein. Die URL "%s" ist nicht erreichbar. Statuscode: %s' % (url, request.status_code))
+            raise forms.ValidationError(_('Please enter a valid URL. The URL %s is not available. Status code: %s') % (url, request.status_code))
 
 
 class ExternalURLAdmin(admin.ModelAdmin):
@@ -180,7 +181,7 @@ class ExternalURLAdmin(admin.ModelAdmin):
     actions = [validate_external_urls]
 
     def preview_url(self, instance):
-        return u'<a href="%s" target="_blank" rel="nofollow">Vorschau</a>' % (instance.url)
+        return _('<a href="%s" target="_blank" rel="nofollow">Preview</a>') % (instance.url)
     preview_url.short_description = u''
     preview_url.allow_tags = True
 

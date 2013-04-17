@@ -58,7 +58,7 @@
             <li>
               <div class="loader change-list"></div>
               <a href="{% url 'statify_release_make_release' %}{% if is_popup %}?_popup=1{% endif %}" class="addlink">
-                Neuen Release erstellen
+                {% trans "Create new release" %}
               </a>
             </li>
           {% endblock %}

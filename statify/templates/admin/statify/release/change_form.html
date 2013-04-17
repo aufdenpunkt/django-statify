@@ -64,10 +64,10 @@
 
 {% block submit_buttons_bottom %}
 <div class="submit-row">
-    <p class="deletelink-box"><a href="/admin/statify/release/{{ original.pk }}/delete/" class="deletelink">Löschen</a></p>
+    <p class="deletelink-box"><a href="/admin/statify/release/{{ original.pk }}/delete/" class="deletelink">{% trans "Delete" %}</a></p>
     <p>
-        <a href="/admin/statify/release/">Zurück zur Übersicht</a> | 
-        <a href="{% url "statify_release_deploy_select_release" original.pk %}">Deployment starten</a>
+        <a href="/admin/statify/release/">{% trans "Back to overview" %}</a> |
+        <a href="{% url "statify_release_deploy_select_release" original.pk %}">{% trans "Run deployment" %}</a>
     </p>
 </div>
 {% endblock %}

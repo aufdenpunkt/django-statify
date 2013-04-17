@@ -16,6 +16,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
+from django.utils.translation import ugettext as _
 
 # Project imports
 from models import Release, ExternalURL
@@ -105,7 +106,7 @@ def make_release(request):
     release.archive = u'%s%s' % (upload_path, htdocs)
     release.save()
 
-    messages.success(request, u'Release %s wurde in %s erstellt.' % (release.date_created, htdocs))
+    messages.success(request, _('Release %s has been created successfully.') % (release.date_created))
 
     return HttpResponseRedirect(u'/admin/statify/release/')
 
@@ -159,14 +160,14 @@ def deploy_release(request, release_id, deploymenthost_id):
             ftp = ftplib.FTP(deploymenthost.host)
         except:
             messages.error(request,
-                u'Deploymenthost %s ist nicht erreichtbar.' % (deploymenthost.host))
+                _('Deployment host "%s" is not available.') % (deploymenthost.host))
             return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
         try:
             ftp.login(deploymenthost.user, deploymenthost.password)
         except:
             messages.error(request,
-                u'Ihre Zugangsdaten zum Host %s sind falsch.' % (deploymenthost.host))
+                _('Your login information to %s is not correct.') % (deploymenthost.host))
             return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
         # Check if directory exists
@@ -181,7 +182,7 @@ def deploy_release(request, release_id, deploymenthost_id):
         # If not, mkdir it
         if not directory_exist:
             messages.error(request,
-                u'Der Zielpfad "%s" des ausgewählten Hosts existiert nicht.' % (deploymenthost.path))
+                _('The target path "%s" does not exist.') % (deploymenthost.path))
             return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
         if not os.path.isdir(tmp_path):
@@ -216,7 +217,7 @@ def deploy_release(request, release_id, deploymenthost_id):
             scp = SFTPClient.from_transport(channel)
         except:
             messages.error(request,
-                u'Deploymenthost %s ist nicht erreichtbar.' % (deploymenthost.host))
+                _('Deployment host "%s" is not available.') % (deploymenthost.host))
             return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
         # Check if directory exists
@@ -224,7 +225,7 @@ def deploy_release(request, release_id, deploymenthost_id):
             scp.stat(deploymenthost.path)
         except:
             messages.error(request,
-                u'Der Zielpfad "%s" des ausgewählten Hosts existiert nicht.' % (deploymenthost.path))
+                _('The target path "%s" does not exist.') % (deploymenthost.path))
             return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
         if not os.path.isdir(tmp_path):
@@ -245,6 +246,6 @@ def deploy_release(request, release_id, deploymenthost_id):
     shutil.rmtree(settings.MEDUSA_DEPLOY_DIR, ignore_errors=True)
 
     messages.success(request,
-        u'Deployment von Release %s wurde erfolgreich ausgeführt.' % (release.timestamp))
+        _('Release "%s" was deployed successfully.') % (release.timestamp))
 
     return HttpResponseRedirect(u'/admin/statify/release/')

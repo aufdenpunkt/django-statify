@@ -35,7 +35,7 @@
         <div>
             {% if form.errors %}
                 <p class="errornote">
-                Bitte korrigieren Sie die Fehler.
+                    {% trans "Please correct the error below." %}
                 </p>
             {% endif %}
             <fieldset class="module aligned{% if form.deploymenthost.errors %} errors{% endif %}">
@@ -44,7 +44,7 @@
                         {{ form.deploymenthost.errors }}
                         <label for="id_{{ form.deploymenthost.name }}" class="required">{{ form.deploymenthost.label }}</label>
                         {{ form.deploymenthost }}
-                        <p class="help">Bitte wählen Sie einen Host aus.</p>
+                        <p class="help">{% trans "Please choose from a host." %}</p>
                     </div>
                 </div>
             </fieldset>
