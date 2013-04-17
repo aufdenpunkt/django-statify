@@ -26,6 +26,7 @@ setup(
     version='0.1.2',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
+    license='BSD',
     url='https://github.com/christian-schweinhardt/django-statify',
     download_url='https://github.com/christian-schweinhardt/django-statify.git',
     package_dir={'statify': 'statify'},
