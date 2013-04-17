@@ -3,6 +3,7 @@
 Build out a static version of your website and deploy it.
 
 
+
 ## 1. Installation ##
 
 
@@ -18,9 +19,9 @@ Build out a static version of your website and deploy it.
 * pycrypto==2.6
 
 
-### On Ubuntu ###
+### 1.2 On Ubuntu ###
 
-If you're using Ubuntu this should work
+If you're using Ubuntu this should work:
 
 `sudo pip install django-statify`
 
@@ -33,6 +34,11 @@ or
 `sudo aptitude install python-mysql`
 
 This will install PIL and your database’s driver globally.
+
+
+### 1.3 On Mac OS X ###
+
+See above like ubuntu.
 
 
 - - -
@@ -77,7 +83,10 @@ Default: `settings.STATIC_URL + 'root/'`
 
 - - -
 
-## Roadmap for version 1.0 ##
+## 3. Roadmap ##
+
+
+### 3.1 Version 1.0 ###
 
 * Execute releases and deployments using management commands
 * Integrate logging for releases and deployments
