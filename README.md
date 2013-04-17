@@ -8,7 +8,8 @@ or on your localhost.
 
 1. [Installation](#1-installation)
 2. [Configuration](#2-configuration)
-3. [Roadmap](#3-roadmap)
+3. [Using](#3-using)
+4. [Roadmap](#4-roadmap)
 
 
 - - -
@@ -107,9 +108,46 @@ in your build settings to: `'/'`.
 Default: `settings.STATIC_URL + 'root/'`
 
 
+## 3. Using ##
+
+
+### 3.1 URLs ###
+
+
+#### 3.1.1. Register internal URL ####
+
+TODO
+
+
+#### 3.1.2. Register external URL ####
+
+TODO
+
+
+### 3.1 Release ###
+
+
+#### 3.1.1. Create new release ####
+
+TODO
+
+
+### 3.1 Deployment ###
+
+
+#### 3.1.1. Manage deployment hosts ####
+
+TODO
+
+
+#### 3.1.2. Run deployment ####
+
+TODO
+
+
 - - -
 
-## 3. Roadmap ##
+## 4. Roadmap ##
 
 
 ### 3.1. Version 1.0 ###
