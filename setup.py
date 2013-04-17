@@ -16,13 +16,13 @@ install_requires = [
     'paramiko==1.10.0',
     'scpclient==0.4',
     'pycrypto==2.6'
-
 ]
 
 
 setup(
     name='django-statify',
     description='Build out a static version of your website and deploy it.',
+    long_description='Build out a static version of your website and deploy it.',
     version='0.1.1',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
