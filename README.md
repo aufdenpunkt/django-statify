@@ -4,6 +4,13 @@ django-statify
 Build out a static version of your website and deploy it.
 
 
+Install
+-------
+
+First you have to run:
+    pip install django-statify
+
+
 Roadmap for version 1.0
 -----------------------
 
