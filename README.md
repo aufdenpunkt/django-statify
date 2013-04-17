@@ -124,23 +124,23 @@ TODO
 TODO
 
 
-### 3.1 Release ###
+### 3.2 Release ###
 
 
-#### 3.1.1. Create new release ####
-
-TODO
-
-
-### 3.1 Deployment ###
-
-
-#### 3.1.1. Manage deployment hosts ####
+#### 3.2.1. Create new release ####
 
 TODO
 
 
-#### 3.1.2. Run deployment ####
+### 3.3 Deployment ###
+
+
+#### 3.3.1. Manage deployment hosts ####
+
+TODO
+
+
+#### 3.3.2. Run deployment ####
 
 TODO
 
