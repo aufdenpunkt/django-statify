@@ -21,11 +21,10 @@ or on your localhost.
 * Python 2.7 or higher
 * Django 1.3 or higher
 * django-medusa (https://github.com/christian-schweinhardt/django-medusa)
-* futures==2.1.3
-* requests==1.1.0
-* paramiko==1.10.0
-* scpclient==0.4
-* pycrypto==2.6
+* requests 1.1.0 or higher
+* paramiko 1.10.0 or higher
+* scpclient 0.4 or higher
+* pycrypto 2.6 or higher
 
 
 #### 1.1.1. On Ubuntu ####
@@ -37,11 +36,7 @@ If you're using Ubuntu this should work:
 
 Additionally, you need the python driver for your selected database:
 
-`sudo aptitude python-psycopg2`
-
-or
-
-`sudo aptitude install python-mysql`
+`sudo aptitude python-psycopg2` or `sudo aptitude install python-mysql`
 
 This will install PIL and your database’s driver globally.
 
@@ -64,7 +59,14 @@ I recommend using SQLite, MySQL or PostgreSQL.
 ### 2.1. Required settings ###
 
 
-#### 2.1.1. STATIFY_PROJECT_DIR ####
+#### 2.1.1. STATIFY_BUILD_SETTINGS ####
+
+e.g. '--settings=build'
+
+Default: `''`
+
+
+#### 2.1.2. STATIFY_PROJECT_DIR ####
 
 The project dir should be the absolute path to your django project, where your 
 manage.py is stored.
@@ -72,7 +74,7 @@ manage.py is stored.
 Default: `os.path.join(os.path.dirname(os.path.abspath(__file__)), '../')`
 
 
-#### 2.1.2. STATIFY_UPLOAD_PATH ####
+#### 2.1.3. STATIFY_UPLOAD_PATH ####
 
 The upload path is relative to the MEDIA_ROOT. There will be stored all release 
 archives. This should be always an absolute path.
@@ -80,7 +82,7 @@ archives. This should be always an absolute path.
 Default: `os.path.join(u'statify/releases/')`
 
 
-#### 2.1.3. STATIFY_EXCLUDED_MEDIA ####
+#### 2.1.4. STATIFY_EXCLUDED_MEDIA ####
 
 The listed dirs will be ignored on generate the release statics.
 Optional I recommend to use django-pipeline for your assets like css, 
@@ -89,7 +91,7 @@ javascript and images.
 Default: `[u'admin', u'statify', u'tmp', u'root']`
 
 
-#### 2.1.4. STATIFY_ROOT_STATIC ####
+#### 2.1.5. STATIFY_ROOT_STATIC ####
 
 If you need some root files like robots.txt or crossdomain.xml you are able to 
 to store it in this path.
@@ -97,7 +99,7 @@ to store it in this path.
 Default: `os.path.join(settings.MEDIA_ROOT, 'root')`
 
 
-#### 2.1.5. STATIFY_ROOT_STATIC_URL ####
+#### 2.1.6. STATIFY_ROOT_STATIC_URL ####
 
 This setting is important for development. This settings should be overwritten 
 in your build settings to: `'/'`.

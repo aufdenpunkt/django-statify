@@ -44,7 +44,7 @@ def make_release(request):
         os.makedirs(settings.MEDUSA_DEPLOY_DIR)
 
     # Call command to run medusa and statify all registered urls
-    call(['python', 'manage.py', 'staticsitegen', '--settings=conf.build'])
+    call(['python', 'manage.py', 'staticsitegen', app_settings.STATIFY_BUILD_SETTINGS])
 
     # Create files from external urls
     for external_url in external_url_list:
