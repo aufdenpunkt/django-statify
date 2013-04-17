@@ -4,6 +4,14 @@ Build out a static version of your django project and deploy it using ftp, ssh
 or on your localhost.
 
 
+## Index ##
+
+1. [Installation](#1-installation)
+2. [Configuration](#2-configuration)
+3. [Roadmap](#3-roadmap)
+
+
+- - -
 
 ## 1. Installation ##
 
