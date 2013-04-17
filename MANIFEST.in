@@ -1,0 +1,2 @@
+include setup.py README.md MANIFEST.in AUTHORS LICENSE
+recursive-include statify *
