@@ -42,7 +42,7 @@ Additionally, you need the python driver for your selected database:
 This will install PIL and your database’s driver globally.
 
 
-#### 1.1.2 On Mac OS X ####
+#### 1.1.2. On Mac OS X ####
 
 `sudo pip install django-statify` (see above)
 
@@ -111,7 +111,7 @@ Default: `settings.STATIC_URL + 'root/'`
 ## 3. Using ##
 
 
-### 3.1 URLs ###
+### 3.1. URLs ###
 
 
 #### 3.1.1. Register internal URL ####
@@ -124,7 +124,7 @@ TODO
 TODO
 
 
-### 3.2 Release ###
+### 3.2. Release ###
 
 
 #### 3.2.1. Create new release ####
@@ -132,7 +132,7 @@ TODO
 TODO
 
 
-### 3.3 Deployment ###
+### 3.3. Deployment ###
 
 
 #### 3.3.1. Manage deployment hosts ####
@@ -150,7 +150,7 @@ TODO
 ## 4. Roadmap ##
 
 
-### 3.1. Version 1.0 ###
+### 4.1. Version 1.0 ###
 
 * Execute releases and deployments using django management commands
 * Integrate logging for releases and deployments
