@@ -100,7 +100,7 @@ Default: `os.path.join(settings.MEDIA_ROOT, 'root')`
 #### 2.1.5. STATIFY_ROOT_STATIC_URL ####
 
 This setting is important for development. This settings should be overwritten 
-in your build settings to: `/`.
+in your build settings to: `'/'`.
 
 Default: `settings.STATIC_URL + 'root/'`
 
