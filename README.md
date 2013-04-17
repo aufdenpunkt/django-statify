@@ -20,7 +20,7 @@ or on your localhost.
 
 * Python 2.7 or higher
 * Django 1.3 or higher
-* django-medusa (-e git+https://github.com/christian-schweinhardt/django-medusa.git#egg=django_medusa)
+* django-medusa (https://github.com/christian-schweinhardt/django-medusa)
 * futures==2.1.3
 * requests==1.1.0
 * paramiko==1.10.0
@@ -109,3 +109,5 @@ Default: `settings.STATIC_URL + 'root/'`
 * Execute releases and deployments using django management commands
 * Integrate logging for releases and deployments
 * Extend deployment hosts to some cloud services (S3, etc.)
+* German translation
+* API to catch objects/models with urls on save
