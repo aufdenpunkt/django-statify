@@ -91,10 +91,16 @@ Default: `[u'admin', u'statify', u'tmp', u'root']`
 
 #### 2.1.4. STATIFY_ROOT_STATIC ####
 
+If you need some root files like robots.txt or crossdomain.xml you are able to 
+to store it in this path.
+
 Default: `os.path.join(settings.MEDIA_ROOT, 'root')`
 
 
 #### 2.1.5. STATIFY_ROOT_STATIC_URL ####
+
+This setting is important for development. This settings should be overwritten 
+in your build settings to: `/`.
 
 Default: `settings.STATIC_URL + 'root/'`
 

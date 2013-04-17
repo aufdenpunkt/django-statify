@@ -11,7 +11,7 @@ dependency_links = [
 
 
 install_requires = [
-    'Django>=1.3'
+    'Django>=1.3',
     'futures==2.1.3',
     'requests==1.1.0',
     'paramiko==1.10.0',

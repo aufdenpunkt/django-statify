@@ -84,7 +84,7 @@ class URL(models.Model):
 class ExternalURL(models.Model):
     is_valid = models.BooleanField(_('Valid'), default=True)
     url = models.URLField(_('URL'))
-    path = models.CharField(_('Path'), max_length=255, unique=True, help_text=_('Please specify the target directory.'))
+    path = models.CharField(_('Target path'), max_length=255, unique=True, help_text=_('Please specify the target path.'))
 
     class Meta:
         app_label = u'statify'
