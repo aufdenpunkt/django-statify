@@ -8,7 +8,8 @@ Install
 -------
 
 First you have to run:
-`pip install django-statify`
+
+`pip install django-statify
 
 
 Roadmap for version 1.0
