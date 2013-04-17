@@ -1,0 +1,62 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "statify/admin/css/statify.css" %}" />
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+<script type="text/javascript" src="{% static "admin/js/jquery.min.js" %}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}statify/admin/js/core.js"></script>
+{% endblock %}
+{% block bodyclass %}statify-release change-form{% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="/admin/">{% trans 'Home' %}</a>
+&rsaquo; <a href="/admin/statify/">Statify</a>
+&rsaquo; <a href="/admin/statify/release/">Releases</a>
+&rsaquo; Deploy Release
+</div>
+{% endblock %}
+
+
+{% block content %}
+<h1>Deploy release</h1>
+<div id="content-main" data-fn="deployForm">
+    <form action="/admin/statify/release/{{ release_id }}/deploy/select/" method="post" id="release_deploy_form">
+        {% csrf_token %}
+        <div>
+            {% if form.errors %}
+                <p class="errornote">
+                Bitte korrigieren Sie die Fehler.
+                </p>
+            {% endif %}
+            <fieldset class="module aligned{% if form.deploymenthost.errors %} errors{% endif %}">
+                <div class="form-row field-type">
+                    <div>
+                        {{ form.deploymenthost.errors }}
+                        <label for="id_{{ form.deploymenthost.name }}" class="required">{{ form.deploymenthost.label }}</label>
+                        {{ form.deploymenthost }}
+                        <p class="help">Bitte wählen Sie einen Host aus.</p>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="submit-row">
+                <p class="deletelink-box">
+                    <a href="/admin/statify/release/" class="deletelink">{% trans "Abbrechen" %}</a>
+                </p>
+                <div class="loader deploy-form"></div>
+                <input type="submit" value="Deployment starten" data-value="Bitte warten, Deployment wird ausgeführt" class="default" name="_save">
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="{{ STATIC_URL }}statify/admin/js/deploy.js"></script>
+{% endblock content %}

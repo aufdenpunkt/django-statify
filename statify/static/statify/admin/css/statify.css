@@ -1,0 +1,18 @@
+.loader {
+    height: 16px;
+    width: 16px;
+    background: url('/static/statify/admin/img/ajax-loader.gif');
+    position: absolute;
+    display: none;
+}
+
+.loader.deploy-form {
+    right: 270px;
+    top: 9px;
+}
+
+.loader.change-list {
+    left: -20px;
+}
+
+.statify-release .submit-row { position: relative; }
