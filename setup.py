@@ -23,7 +23,7 @@ setup(
     name='django-statify',
     description='Build out a static version of your website and deploy it.',
     long_description='Build out a static version of your website and deploy it.',
-    version='0.1.2',
+    version='0.1.3',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
     license='BSD',
