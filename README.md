@@ -57,7 +57,7 @@ I recommend using SQLite, MySQL or PostgreSQL.
 
 Add the following app to your INSTALLED_APPS.
 
-*. `'statify'` django-statify itself
+* `'statify'` django-statify itself
 
 and run `python manage.py syncdb --all` on your django project root.
 
