@@ -21,7 +21,7 @@ install_requires = [
 setup(
     name='django-statify',
     description='Build out a static version of your website and deploy it.',
-    version='0.1.3',
+    version='0.1.4',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
     license='BSD',
