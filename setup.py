@@ -20,7 +20,8 @@ install_requires = [
 
 setup(
     name='django-statify',
-    description='Build out a static version of your website and deploy it.',
+    description='Build out a static version of your website.',
+    long_description='Build out a static version of your django project and deploy it using ftp, ssh or on your localhost.',
     version='0.1.4',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
