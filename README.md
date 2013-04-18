@@ -25,7 +25,6 @@ or on your localhost.
 * requests 1.1.0 or higher
 * paramiko 1.10.0 or higher
 * scpclient 0.4 or higher
-* pycrypto 2.6 or higher
 
 
 #### 1.1.1. On Ubuntu ####
