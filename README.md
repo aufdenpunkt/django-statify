@@ -31,8 +31,8 @@ or on your localhost.
 
 If you're using Ubuntu this should work:
 
-1. `sudo pip install django-statify`
-2. `python manage.py syncdb --all`
+* `sudo pip install django-statify`
+
 
 Additionally, you need the python driver for your selected database:
 
@@ -54,6 +54,28 @@ I recommend using SQLite, MySQL or PostgreSQL.
 - - -
 
 ## 2. Configuration ##
+
+Add the following app to your INSTALLED_APPS.
+
+1. `'statify'` django-statify itself
+2. and run `python manage.py syncdb --all` on your django project root
+
+If you want to register your models url automatically on save, you have to add 
+one of the following methods to your Model Class.
+
+The following example is for an single URL:
+
+    def statify_url(self):
+        return u'/%s/' % self.url_field
+
+
+or you can register more then one URLs for one Model with the following example:
+
+    def statify_urls(self):
+        url_list = list()
+        url_list.append('/%s/' % self.locale)
+
+        return url_list
 
 
 ### 2.1. Required settings ###
