@@ -70,7 +70,7 @@ The following example is for an single URL:
         return u'/%s/' % self.url_field
 
 
-or you can register more then one URLs for one Model with the following example:
+or you can register more then one URL for a Model with the following example:
 
     def statify_urls(self):
         url_list = list()
