@@ -24,17 +24,33 @@ def save_handler(sender, **kwargs):
         return u'/%s/' % self.locale
     '''
 
-    try:
-        urls = kwargs.get('instance').statify_urls()
-        for url in urls:
-            URL(url).save()
-    except:
-        pass
+    excluded_models = (
+        u'Session',
+        u'Group',
+        u'User',
+        u'LogEntry',
+        u'Release',
+        u'DeploymentHost',
+        u'URL',
+        u'ExternalURL',
+    )
+    model = sender.__name__
 
-    try:
-        url = kwargs.get('instance').statify_url()
-        URL(url).save()
-    except:
-        pass
+    if not model in excluded_models:
+        try:
+            urls = kwargs.get('instance').statify_urls()
+            for url in urls:
+                try:
+                    URL(url=url).save()
+                except:
+                    pass
+        except:
+            pass
+
+        try:
+            url = kwargs.get('instance').statify_url()
+            URL(url=url).save()
+        except:
+            pass
 
 post_save.connect(save_handler)
