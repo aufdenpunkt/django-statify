@@ -2,10 +2,22 @@
 #
 
 # 3rd party imports
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 
 # Project imports
 from models import URL
+
+
+EXCLUDED_MODELS = (
+    u'Session',
+    u'Group',
+    u'User',
+    u'LogEntry',
+    u'Release',
+    u'DeploymentHost',
+    u'URL',
+    u'ExternalURL',
+)
 
 
 def save_handler(sender, **kwargs):
@@ -24,19 +36,9 @@ def save_handler(sender, **kwargs):
         return u'/%s/' % self.locale
     '''
 
-    excluded_models = (
-        u'Session',
-        u'Group',
-        u'User',
-        u'LogEntry',
-        u'Release',
-        u'DeploymentHost',
-        u'URL',
-        u'ExternalURL',
-    )
     model = sender.__name__
 
-    if not model in excluded_models:
+    if not model in EXCLUDED_MODELS:
         try:
             urls = kwargs.get('instance').statify_urls()
             for url in urls:
@@ -54,3 +56,26 @@ def save_handler(sender, **kwargs):
             pass
 
 post_save.connect(save_handler)
+
+
+def delete_handler(sender, **kwargs):
+    model = sender.__name__
+
+    if not model in EXCLUDED_MODELS:
+        try:
+            urls = kwargs.get('instance').statify_urls()
+            for url in urls:
+                try:
+                    URL.objects.get(url=url).delete()
+                except:
+                    pass
+        except:
+            pass
+
+        try:
+            url = kwargs.get('instance').statify_url()
+            URL.objects.get(url=url).delete()
+        except:
+            pass
+
+post_delete.connect(delete_handler)
