@@ -156,4 +156,4 @@ TODO
 * Integrate logging for releases and deployments
 * Extend deployment hosts to some cloud services (S3, etc.)
 * German translation
-* API to catch objects/models with urls on save
+* API to catch objects/models with urls on save (Done using signals)
