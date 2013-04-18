@@ -57,10 +57,11 @@ I recommend using SQLite, MySQL or PostgreSQL.
 
 Add the following app to your INSTALLED_APPS.
 
-1. `'statify'` django-statify itself
-2. and run `python manage.py syncdb --all` on your django project root
+*. `'statify'` django-statify itself
 
-If you want to register your models url automatically on save, you have to add 
+and run `python manage.py syncdb --all` on your django project root.
+
+If you want to register urls from models automatically on save, you have to add 
 one of the following methods to your Model Class.
 
 The following example is for an single URL:
