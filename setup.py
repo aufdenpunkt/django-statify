@@ -14,21 +14,20 @@ install_requires = [
     'Django>=1.3',
     'requests>=1.1.0',
     'paramiko>=1.10.0',
-    'scpclient>=0.4',
-    'pycrypto>=2.6'
+    'scpclient>=0.4'
 ]
 
 
 setup(
     name='django-statify',
     description='Build out a static version of your website and deploy it.',
-    long_description='Build out a static version of your website and deploy it.',
     version='0.1.3',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
     license='BSD',
     url='https://github.com/christian-schweinhardt/django-statify',
     download_url='https://github.com/christian-schweinhardt/django-statify.git',
+    bugtrack_url='https://github.com/christian-schweinhardt/django-statify/issues',
     package_dir={'statify': 'statify'},
     packages=['statify'],
     zip_safe=False,

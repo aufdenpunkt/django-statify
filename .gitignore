@@ -1,5 +1,6 @@
 *.log
 *.pot
 *.pyc
-dist/
+dist
+build
 django_statify.egg-info
