@@ -28,7 +28,6 @@ setup(
     license='BSD',
     url='https://github.com/christian-schweinhardt/django-statify',
     download_url='https://github.com/christian-schweinhardt/django-statify.git',
-    bugtrack_url='https://github.com/christian-schweinhardt/django-statify/issues',
     package_dir={'statify': 'statify'},
     packages=['statify'],
     zip_safe=False,
