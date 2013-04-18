@@ -38,7 +38,7 @@ class ReleaseAdmin(admin.ModelAdmin):
     download.allow_tags = True
 
     def deploy(self, instance):
-        return u'<a href="/admin/statify/release/%s/deploy/select/">Deploy this</a>' % (instance.id)
+        return u'<a href="/admin/statify/release/%s/deploy/select/">Deploy this release</a>' % (instance.id)
     deploy.short_description = _('Deployment')
     deploy.allow_tags = True
 
