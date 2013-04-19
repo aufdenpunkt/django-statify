@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+type = PO
+
+[statify.core]
+file_filter = statify/locale/<lang>/LC_MESSAGES/django.po
+source_file = statify/locale/en/LC_MESSAGES/django.po
+source_lang = en
