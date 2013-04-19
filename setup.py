@@ -5,16 +5,26 @@
 from setuptools import setup
 
 
-dependency_links = [
+DEPENDENCY_LINKS = [
     'https://github.com/christian-schweinhardt/django-medusa.git#egg=django_medusa'
 ]
 
 
-install_requires = [
+INSTALL_REQUIRES = [
     'Django>=1.3',
     'requests>=1.1.0',
     'paramiko>=1.10.0',
     'scpclient>=0.4'
+]
+
+CLASSIFIERS = [
+    'Intended Audience :: Developers',
+    'Intended Audience :: System Administrators',
+    'Operating System :: OS Independent',
+    'Topic :: Software Development',
+    'Framework :: Django',
+    'License :: OSI Approved :: BSD License',
+    'Environment :: Web Environment'
 ]
 
 
@@ -31,13 +41,8 @@ setup(
     package_dir={'statify': 'statify'},
     packages=['statify'],
     zip_safe=False,
-    install_requires=install_requires,
-    dependency_links = dependency_links,
+    install_requires=INSTALL_REQUIRES,
+    dependency_links = DEPENDENCY_LINKS,
     include_package_data=True,
-    classifiers=[
-        'Intended Audience :: Developers',
-        'Intended Audience :: System Administrators',
-        'Operating System :: OS Independent',
-        'Topic :: Software Development'
-    ],
+    classifiers=CLASSIFIERS,
 )
