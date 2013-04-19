@@ -1,4 +1,6 @@
-# django-statify #
+==============
+django-statify
+==============
 
 Build out a static version of your django project and deploy it using ftp, ssh 
 or on your localhost.
@@ -40,7 +42,7 @@ If you're using Ubuntu this should work:
 
 Additionally, you need the python driver for your selected database:
 
-`sudo aptitude python-psycopg2` or `sudo aptitude install python-mysql`
+    sudo aptitude python-psycopg2 or sudo aptitude install python-mysql
 
 This will your database’s driver globally.
 
@@ -126,7 +128,7 @@ of the final htdocs.
 Default: `os.path.join(settings.MEDIA_ROOT, 'root')`
 
 
-#### `STATIFY_ROOT_STATIC_URL ####
+#### `STATIFY_ROOT_STATIC_URL` ####
 
 This setting is important for development. It should be overwritten 
 in your build settings to `'/'`.
