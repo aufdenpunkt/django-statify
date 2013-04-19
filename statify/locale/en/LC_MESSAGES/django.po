@@ -1,0 +1,200 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: django-statify\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-19 10:14+0200\n"
+"PO-Revision-Date: 2013-04-19 10:16+0100\n"
+"Last-Translator: Christian Schweinhardt <are.u.kidding@me.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "Archive"
+msgstr ""
+
+msgid "Deployment"
+msgstr ""
+
+msgid "Server"
+msgstr ""
+
+msgid "Authentication"
+msgstr ""
+
+msgid "The URL field must be filled."
+msgstr ""
+
+msgid "The URL you entered already exists."
+msgstr ""
+
+msgid "The URL you entered must begin with \"/\"."
+msgstr ""
+
+#, python-format
+msgid "Please enter a valid URL. The URL %s is not available. Status code: %s"
+msgstr ""
+
+msgid "Check selected URLs"
+msgstr ""
+
+#, python-format
+msgid "<a href=\"http://%s%s\" target=\"_blank\" rel=\"nofollow\">Preview</a>"
+msgstr ""
+
+msgid "Check selected external URLs"
+msgstr ""
+
+#, python-format
+msgid "<a href=\"%s\" target=\"_blank\" rel=\"nofollow\">Preview</a>"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Created on"
+msgstr ""
+
+msgid "Timestamp"
+msgstr ""
+
+msgid "statify"
+msgstr ""
+
+msgid "Release"
+msgstr ""
+
+msgid "Releases"
+msgstr ""
+
+msgid "Local"
+msgstr ""
+
+msgid "FTP"
+msgstr ""
+
+msgid "SSH"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Public Key"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "URL to view the deployed result."
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Host"
+msgstr ""
+
+msgid "E.g. ssh.server.com"
+msgstr ""
+
+msgid "Path"
+msgstr ""
+
+msgid "Authentication type"
+msgstr ""
+
+msgid "Deployment host"
+msgstr ""
+
+msgid "Deployment hosts"
+msgstr ""
+
+msgid "Valid"
+msgstr ""
+
+msgid "URLs"
+msgstr ""
+
+msgid "Target path"
+msgstr ""
+
+msgid "Please specify the target path."
+msgstr ""
+
+msgid "External URL"
+msgstr ""
+
+msgid "External URLs"
+msgstr ""
+
+#, python-format
+msgid "Release %s has been created successfully."
+msgstr ""
+
+#, python-format
+msgid "Deployment host \"%s\" is not available."
+msgstr ""
+
+#, python-format
+msgid "Your login information to %s is not correct."
+msgstr ""
+
+#, python-format
+msgid "The target path \"%s\" does not exist."
+msgstr ""
+
+#, python-format
+msgid "Release \"%s\" was deployed successfully."
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "View on site"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Back to overview"
+msgstr ""
+
+msgid "Run deployment"
+msgstr ""
+
+msgid "Create new release"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Please choose from a host."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Please wait while deployment is running"
+msgstr ""
+
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
