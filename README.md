@@ -3,6 +3,9 @@
 Build out a static version of your django project and deploy it using ftp, ssh 
 or on your localhost.
 
+But at first ... if you like this tool and the idea behind, feel free to fork 
+it, make pull requests and write issues.
+
 
 ## Index ##
 
