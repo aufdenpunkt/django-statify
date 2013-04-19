@@ -17,6 +17,7 @@ INSTALL_REQUIRES = [
     'scpclient>=0.4'
 ]
 
+
 CLASSIFIERS = [
     'Intended Audience :: Developers',
     'Intended Audience :: System Administrators',
