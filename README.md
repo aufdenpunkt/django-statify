@@ -215,15 +215,15 @@ like below by clicking on "Run deployment".
 ### Version 0.1.6 ###
 
 * Added german locale
-* Some bugfix
+* Some bugfixes
 
 
 ### Version 0.1.5 ###
 
 * Added API / Method to register urls from Models
-* Some bugfix
+* Some bugfixes
 
 
 ### Version 0.1.4 ###
 
-* Some bugfix
+* Some bugfixes
