@@ -63,6 +63,8 @@ Add the following app to your INSTALLED_APPS.
 
 * `'statify'` django-statify itself
 
+Now add `url(r'^', include('statify.urls'))` to your urls.py
+
 and run `python manage.py syncdb --all`.
 
 
