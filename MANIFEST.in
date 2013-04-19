@@ -1,2 +1,2 @@
-include setup.py README.md MANIFEST.in AUTHORS LICENSE
+include setup.py README.rst MANIFEST.in AUTHORS LICENSE
 recursive-include statify *
