@@ -33,7 +33,7 @@ setup(
     name='django-statify',
     description='Build out a static version of your website.',
     long_description='Build out a static version of your django project and deploy it using ftp, ssh or on your localhost. But at first ... if you like this tool and the idea behind, feel free to fork it, make pull requests and write issues.',
-    version='0.1.6',
+    version='0.1.7',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
     license='BSD',

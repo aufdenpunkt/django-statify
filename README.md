@@ -217,18 +217,26 @@ like below by clicking on "Run deployment".
 ## 5. Changelog ##
 
 
+### Version 0.1.7 ###
+
+* Updated README.md
+
+
 ### Version 0.1.6 ###
 
 * Added german locale
+* Updated README.md
 * Some bugfixes
 
 
 ### Version 0.1.5 ###
 
 * Added API / Method to register urls from Models
+* Updated README.md
 * Some bugfixes
 
 
 ### Version 0.1.4 ###
 
+* Updated README.md
 * Some bugfixes
