@@ -38,7 +38,7 @@ Additionally, you need the python driver for your selected database:
 
 `sudo aptitude python-psycopg2` or `sudo aptitude install python-mysql`
 
-This will install PIL and your database’s driver globally.
+This will your database’s driver globally.
 
 
 #### 1.1.2. On Mac OS X ####
@@ -189,7 +189,7 @@ TODO
 #### 3.3.2. Run deployment ####
 
 There are two ways to deploy an release. First you have to click at the release 
-overview on "deploy this release". Afterwards you have to select an 
+overview on "Deploy this release". Afterwards you have to select an 
 deployment host and click on "Run deployment".
 
 Alternative you can navigate to the detail view of an release and do the same 
