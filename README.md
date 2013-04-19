@@ -10,6 +10,7 @@ or on your localhost.
 2. [Configuration](#2-configuration)
 3. [Using](#3-using)
 4. [Roadmap](#4-roadmap)
+5. [Changelog](#5-changelog)
 
 
 - - -
@@ -201,10 +202,28 @@ like below by clicking on "Run deployment".
 ## 4. Roadmap ##
 
 
-### 4.1. Version 1.0 ###
+### Version 1.0 ###
 
 * Execute releases and deployments using django management commands
 * Integrate logging for releases and deployments
 * Extend deployment hosts to some cloud services (S3, etc.)
-* German translation
-* // API to catch objects/models with urls on save (Done using signals)
+
+
+## 5. Changelog ##
+
+
+### Version 0.1.6 ###
+
+* Added german locale
+* Some bugfix
+
+
+### Version 0.1.5 ###
+
+* Added API / Method to register urls from Models
+* Some bugfix
+
+
+### Version 0.1.4 ###
+
+* Some bugfix
