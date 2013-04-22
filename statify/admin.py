@@ -45,8 +45,8 @@ class ReleaseAdmin(admin.ModelAdmin):
     def delete_releases(modeladmin, request, queryset):
         for release in queryset:
             release.delete()
-        messages.success(request, _('Die ausgewählten Releases wurden erfolgreich gelöscht.'))
-    delete_releases.short_description = _("Ausgewählte Releases löschen")
+        messages.success(request, _('Selected Releases were deleted successfully.'))
+    delete_releases.short_description = _("Delete selected releases.")
 
     # Remove default query delete
     def get_actions(self, request):
