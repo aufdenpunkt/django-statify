@@ -7,22 +7,37 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-statify\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-19 10:14+0200\n"
+"POT-Creation-Date: 2013-04-22 17:10+0200\n"
 "PO-Revision-Date: 2013-04-19 10:16+0100\n"
 "Last-Translator: Christian Schweinhardt <are.u.kidding@me.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
-"Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+
+#, python-format
+msgid "<a href=\"%s%s\" target=\"_blank\">Download</a>"
+msgstr ""
 
 msgid "Archive"
 msgstr ""
 
+#, python-format
+msgid ""
+"<a href=\"/admin/statify/release/%s/deploy/select/\">Deploy this release</a>"
+msgstr ""
+
 msgid "Deployment"
+msgstr ""
+
+msgid "Die ausgewählten Releases wurden erfolgreich gelöscht."
+msgstr ""
+
+msgid "Ausgewählte Releases löschen"
 msgstr ""
 
 msgid "Server"
@@ -177,7 +192,7 @@ msgstr ""
 msgid "Back to overview"
 msgstr ""
 
-msgid "Run deployment"
+msgid "Deploy this release"
 msgstr ""
 
 msgid "Create new release"
@@ -190,6 +205,9 @@ msgid "Please choose from a host."
 msgstr ""
 
 msgid "Cancel"
+msgstr ""
+
+msgid "Run deployment"
 msgstr ""
 
 msgid "Please wait while deployment is running"

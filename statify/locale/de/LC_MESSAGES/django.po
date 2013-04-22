@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-statify\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-19 09:29+0200\n"
-"PO-Revision-Date: 2013-04-19 10:16+0100\n"
+"POT-Creation-Date: 2013-04-22 17:10+0200\n"
+"PO-Revision-Date: 2013-04-22 17:17+0100\n"
 "Last-Translator: Christian Schweinhardt <are.u.kidding@me.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -19,11 +19,28 @@ msgstr ""
 "X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
+#, python-format
+msgid "<a href=\"%s%s\" target=\"_blank\">Download</a>"
+msgstr "<a href=\"%s%s\" target=\"_blank\">Download</a>"
+
 msgid "Archive"
 msgstr "Archiv"
 
+#, python-format
+msgid ""
+"<a href=\"/admin/statify/release/%s/deploy/select/\">Deploy this release</a>"
+msgstr ""
+"<a href=\"/admin/statify/release/%s/deploy/select/\">Release "
+"veröffentlichen</a>"
+
 msgid "Deployment"
 msgstr "Veröffentlichung"
+
+msgid "Die ausgewählten Releases wurden erfolgreich gelöscht."
+msgstr "Selected releases was deleted successfully."
+
+msgid "Ausgewählte Releases löschen"
+msgstr "Delete selected releases"
 
 msgid "Server"
 msgstr "Server"
@@ -137,7 +154,7 @@ msgid "Please specify the target path."
 msgstr "Bitte geben Sie den Zielpfad an."
 
 msgid "External URL"
-msgstr "Externe URLGeschichte"
+msgstr "Externe URL"
 
 msgid "External URLs"
 msgstr "Externe URLs"
@@ -180,8 +197,8 @@ msgstr "Löschen"
 msgid "Back to overview"
 msgstr "Zurück zur Übersicht"
 
-msgid "Run deployment"
-msgstr "Deployment starten"
+msgid "Deploy this release"
+msgstr "Release veröffentlich"
 
 msgid "Create new release"
 msgstr "Neuen Release erstellen"
@@ -194,6 +211,9 @@ msgstr "Bitte einen Host auswählen."
 
 msgid "Cancel"
 msgstr "Abbrechen"
+
+msgid "Run deployment"
+msgstr "Deployment starten"
 
 msgid "Please wait while deployment is running"
 msgstr "Bitte warten Sie, während das Deployment läuft"

@@ -67,7 +67,7 @@
     <p class="deletelink-box"><a href="/admin/statify/release/{{ original.pk }}/delete/" class="deletelink">{% trans "Delete" %}</a></p>
     <p>
         <a href="/admin/statify/release/">{% trans "Back to overview" %}</a> |
-        <a href="{% url "statify_release_deploy_select_release" original.pk %}">{% trans "Run deployment" %}</a>
+        <a href="{% url "statify_release_deploy_select_release" original.pk %}">{% trans "Deploy this release" %}</a>
     </p>
 </div>
 {% endblock %}

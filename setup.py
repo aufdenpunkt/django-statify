@@ -32,7 +32,7 @@ CLASSIFIERS = [
 setup(
     name='django-statify',
     description='Build out a static version of your website.',
-    version='0.1.8',
+    version='0.1.9',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
     license='BSD',

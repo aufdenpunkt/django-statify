@@ -22,13 +22,13 @@
 <a href="/admin/">{% trans 'Home' %}</a>
 &rsaquo; <a href="/admin/statify/">Statify</a>
 &rsaquo; <a href="/admin/statify/release/">Releases</a>
-&rsaquo; Deploy Release
+&rsaquo; {% trans "Deploy this release" %}
 </div>
 {% endblock %}
 
 
 {% block content %}
-<h1>Deploy release</h1>
+<h1>{% trans "Deploy this release" %}</h1>
 <div id="content-main" data-fn="deployForm">
     <form action="/admin/statify/release/{{ release_id }}/deploy/select/" method="post" id="release_deploy_form">
         {% csrf_token %}

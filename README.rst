@@ -286,6 +286,24 @@ Version 1.0
 5. Changelog
 ============
 
+
+-------------
+Version 0.1.9
+-------------
+
+- Updated README.md
+- Some locale fixes
+- Some bugfixes
+
+
+-------------
+Version 0.1.8
+-------------
+
+- Updated README.md
+- Some bugfixes
+
+
 -------------
 Version 0.1.7
 -------------

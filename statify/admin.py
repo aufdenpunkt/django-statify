@@ -33,20 +33,20 @@ class ReleaseAdmin(admin.ModelAdmin):
         return False
 
     def download(self, instance):
-        return u'<a href="%s%s" target="_blank">Download</a>' % (settings.STATIC_URL, instance.archive)
+        return _('<a href="%s%s" target="_blank">Download</a>') % (settings.STATIC_URL, instance.archive)
     download.short_description = _('Archive')
     download.allow_tags = True
 
     def deploy(self, instance):
-        return u'<a href="/admin/statify/release/%s/deploy/select/">Deploy this release</a>' % (instance.id)
+        return _('<a href="/admin/statify/release/%s/deploy/select/">Deploy this release</a>') % (instance.id)
     deploy.short_description = _('Deployment')
     deploy.allow_tags = True
 
     def delete_releases(modeladmin, request, queryset):
         for release in queryset:
             release.delete()
-        messages.success(request, 'Die ausgewählten Releases wurden erfolgreich gelöscht.')
-    delete_releases.short_description = "Ausgewählte Releases löschen"
+        messages.success(request, _('Die ausgewählten Releases wurden erfolgreich gelöscht.'))
+    delete_releases.short_description = _("Ausgewählte Releases löschen")
 
     # Remove default query delete
     def get_actions(self, request):
