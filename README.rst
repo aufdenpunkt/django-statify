@@ -318,6 +318,15 @@ Version 1.0
 5. Changelog
 ============
 
+-------------
+Version 0.2.0
+-------------
+
+- Added django-cms support (in BETA)
+- Some locale fixes
+- Some bugfixes
+- Updated README.md
+
 
 -------------
 Version 0.1.9
