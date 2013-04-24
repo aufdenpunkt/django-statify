@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-statify\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 17:27+0200\n"
-"PO-Revision-Date: 2013-04-19 10:16+0100\n"
+"POT-Creation-Date: 2013-04-24 09:58+0200\n"
+"PO-Revision-Date: 2013-04-24 09:59+0100\n"
 "Last-Translator: Christian Schweinhardt <are.u.kidding@me.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en\n"
@@ -27,7 +27,8 @@ msgid "Archive"
 msgstr ""
 
 #, python-format
-msgid "<a href=\"/admin/statify/release/%s/deploy/select/\">Deploy this release</a>"
+msgid ""
+"<a href=\"/admin/statify/release/%s/deploy/select/\">Deploy this release</a>"
 msgstr ""
 
 msgid "Deployment"
@@ -55,7 +56,7 @@ msgid "The URL you entered must begin with \"/\"."
 msgstr ""
 
 #, python-format
-msgid "Please enter a valid URL. The URL %s is not available. Status code: %s"
+msgid "Please enter a valid URL. The URL %s is not available."
 msgstr ""
 
 msgid "Check selected URLs"
