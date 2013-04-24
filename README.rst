@@ -312,6 +312,7 @@ Version 1.0
 - Execute releases and deployments using django management commands
 - Integrate logging for releases and deployments
 - Extend deployment hosts to some cloud services (S3, etc.)
+- django CMS support
 
 
 ============

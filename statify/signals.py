@@ -44,6 +44,23 @@ def save_handler(sender, **kwargs):
 
     # If the project is using django-cms
     # Add URL from translation on save
+    if statify_settings.STATIFY_USE_CMS and model is 'Page':
+        instance = kwargs.get('instance')
+        title_set = instance.title_set.all()
+
+        for title in title_set:
+            if not title.page.is_home():
+                absolute_url = u'/%s/%s/' % (title.language, title.path)
+            else:
+                absolute_url = u'/%s/' % (title.language)
+
+            if url_is_valid(u'http://%s%s' % (current_site, absolute_url)):
+                try:
+                    URL(url=absolute_url).save()
+                except:
+                    pass
+
+
     if statify_settings.STATIFY_USE_CMS and model is 'Title':
         instance = kwargs.get('instance')
 
@@ -57,6 +74,7 @@ def save_handler(sender, **kwargs):
                 URL(url=absolute_url).save()
             except:
                 pass
+
 
     if not model in EXCLUDED_MODELS:
         try:
@@ -86,7 +104,7 @@ def delete_handler(sender, **kwargs):
     if statify_settings.STATIFY_USE_CMS and model is 'Title':
         instance = kwargs.get('instance')
 
-        if not instance.page.is_home():
+        if instance.path:
             absolute_url = u'/%s/%s/' % (instance.language, instance.path)
         else:
             absolute_url = u'/%s/' % (instance.language)
@@ -95,6 +113,7 @@ def delete_handler(sender, **kwargs):
             URL.objects.get(url=absolute_url).delete()
         except:
             pass
+
 
     if not model in EXCLUDED_MODELS:
         try:
