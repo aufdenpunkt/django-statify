@@ -49,7 +49,7 @@ This will your database’s driver globally.
 
 ::
 
-    sudo pip install django-statify` (see above)
+    sudo pip install django-statify (see above at ubuntu)
 
 
 -------------
@@ -69,7 +69,7 @@ Add the following app to your INSTALLED_APPS.
 
     'statify'
 
-Now add 
+Now add
 
 ::
 
@@ -80,6 +80,26 @@ to your urls.py and run
 ::
 
     python manage.py syncdb --all
+
+
+At last you have to set the current host at your Sites in the Admin Interface.
+
+Default there is an exmaple host like:
+
+::
+
+    Domain name: example.com
+    Display name: Domain
+
+this should be something like this
+
+::
+
+    Domain name: Your current host, e.g. 127.0.0.1:8000
+    Display name: Localhost or something else
+
+
+The domain name is important because of the internal url validation.
 
 
 ----------------------
@@ -117,6 +137,18 @@ Default:
 ::
 
     ''
+
+
+STATIFY_USE_CMS
+===============
+
+IF you are using django-cms you have to set this True:
+
+::
+
+    STATIFY_USE_CMS = True
+
+Now your CMS sites will be automatically saved in internal urls.
 
 
 STATIFY_PROJECT_DIR

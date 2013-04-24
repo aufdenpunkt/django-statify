@@ -3,9 +3,12 @@
 
 # 3rd party imports
 from django.db.models.signals import post_save, post_delete
+from django.contrib.sites.models import Site
 
 # Project imports
 from models import URL
+from utils import url_is_valid
+import settings as statify_settings
 
 
 EXCLUDED_MODELS = (
@@ -36,7 +39,24 @@ def save_handler(sender, **kwargs):
         return u'/%s/' % self.locale
     '''
 
+    current_site = Site.objects.get_current()
     model = sender.__name__
+
+    # If the project is using django-cms
+    # Add URL from translation on save
+    if statify_settings.STATIFY_USE_CMS and model is 'Title':
+        instance = kwargs.get('instance')
+
+        if not instance.page.is_home():
+            absolute_url = u'/%s/%s/' % (instance.language, instance.path)
+        else:
+            absolute_url = u'/%s/' % (instance.language)
+
+        if url_is_valid(u'http://%s%s' % (current_site, absolute_url)):
+            try:
+                URL(url=absolute_url).save()
+            except:
+                pass
 
     if not model in EXCLUDED_MODELS:
         try:
@@ -60,6 +80,21 @@ post_save.connect(save_handler)
 
 def delete_handler(sender, **kwargs):
     model = sender.__name__
+
+    # If the project is using django-cms
+    # Delete URL from translation
+    if statify_settings.STATIFY_USE_CMS and model is 'Title':
+        instance = kwargs.get('instance')
+
+        if not instance.page.is_home():
+            absolute_url = u'/%s/%s/' % (instance.language, instance.path)
+        else:
+            absolute_url = u'/%s/' % (instance.language)
+
+        try:
+            URL.objects.get(url=absolute_url).delete()
+        except:
+            pass
 
     if not model in EXCLUDED_MODELS:
         try:

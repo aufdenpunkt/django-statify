@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 #
 
-# Core imports
-import requests
-
 # 3rd party imports
 from django import forms
 from django.conf import settings
@@ -14,10 +11,10 @@ from django.utils.translation import ugettext as _
 
 # Project imports
 from models import ExternalURL, URL, Release, DeploymentHost
+from utils import url_is_valid
 
 
 # Global variables
-VALID_CODES = [200, 301, 302]
 CURRENT_SITE = Site.objects.get_current()
 
 
@@ -96,21 +93,18 @@ class URLForm(forms.ModelForm):
         if not cleaned_url.startswith('/'):
             raise forms.ValidationError(_('The URL you entered must begin with "/".'))
 
-        request = requests.get(url)
-
         # Check if url exists and
-        if request.status_code in VALID_CODES:
+        if url_is_valid(url):
             return self.cleaned_data
         else:
-            raise forms.ValidationError(_('Please enter a valid URL. The URL %s is not available. Status code: %s') % (url, request.status_code))
+            raise forms.ValidationError(_('Please enter a valid URL. The URL %s is not available.') % (url))
 
 
 def validate_urls(modeladmin, request, queryset):
     for u in queryset:
         url = u'http://%s%s' % (CURRENT_SITE, u)
-        request = requests.get(url)
 
-        if request.status_code in VALID_CODES:
+        if url_is_valid(url):
             u.is_valid = True
         else:
             u.is_valid = False
@@ -137,9 +131,7 @@ admin.site.register(URL, URLAdmin)
 
 def validate_external_urls(modeladmin, request, queryset):
     for u in queryset:
-        request = requests.get(u.url)
-
-        if request.status_code in VALID_CODES:
+        if url_is_valid(u.url):
             u.is_valid = True
         else:
             u.is_valid = False
@@ -164,13 +156,11 @@ class ExternalURLForm(forms.ModelForm):
         if len(URL.objects.filter(url=cleaned_url).exclude(pk=self.instance.pk)) > 0:
             raise forms.ValidationError(_('The URL you entered already exists.'))
 
-        request = requests.get(url)
-
         # Check if url exists and
-        if request.status_code in VALID_CODES:
+        if url_is_valid(url):
             return self.cleaned_data
         else:
-            raise forms.ValidationError(_('Please enter a valid URL. The URL %s is not available. Status code: %s') % (url, request.status_code))
+            raise forms.ValidationError(_('Please enter a valid URL. The URL %s is not available.') % (url))
 
 
 class ExternalURLAdmin(admin.ModelAdmin):
