@@ -179,7 +179,7 @@ class URLAdmin(admin.ModelAdmin):
     @mark_safe
     def preview_url(self, instance):
         return '<a href="//{}" target="_blank" rel="nofollow">{}</a>'.format(
-            CURRENT_SITE + instance.url,
+            CURRENT_SITE.domain + instance.url,
             _('Preview')
         )
     preview_url.short_description = _('Preview')
