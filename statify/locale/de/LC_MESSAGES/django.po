@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-statify\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 09:58+0200\n"
+"POT-Creation-Date: 2020-08-14 17:13+0200\n"
 "PO-Revision-Date: 2013-04-24 09:59+0100\n"
 "Last-Translator: Christian Schweinhardt <are.u.kidding@me.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,31 +19,29 @@ msgstr ""
 "X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#, python-format
-msgid "<a href=\"%s%s\" target=\"_blank\">Download</a>"
-msgstr "<a href=\"%s%s\" target=\"_blank\">Download</a>"
-
-msgid "Archive"
-msgstr "Archiv"
-
-#, python-format
-msgid ""
-"<a href=\"/admin/statify/release/%s/deploy/select/\">Deploy this release</a>"
-msgstr ""
-"<a href=\"/admin/statify/release/%s/deploy/select/\">Release "
-"veröffentlichen</a>"
-
-msgid "Deployment"
-msgstr "Veröffentlichung"
-
 msgid "Selected Releases were deleted successfully."
 msgstr "Ausgewählte Releases wurden erfolgreich gelöscht."
 
 msgid "Delete selected releases."
 msgstr "Ausgewählte Releases löschen"
 
-msgid "Server"
-msgstr "Server"
+msgid "Download"
+msgstr "Download"
+
+msgid "Archive"
+msgstr "Archiv"
+
+msgid "Deploy"
+msgstr "Veröffentlichen"
+
+msgid "Deployment"
+msgstr "Veröffentlichung"
+
+msgid "Archive size"
+msgstr "Archivgröße"
+
+msgid "Server settings"
+msgstr "Server-Einstellungen"
 
 msgid "Authentication"
 msgstr "Authentifizierung"
@@ -64,17 +62,11 @@ msgstr "Bitte geben Sie eine gültige URL ein. Die URL %s ist nicht erreichbar."
 msgid "Check selected URLs"
 msgstr "Ausgewähle URLs überprüfen"
 
-#, python-format
-msgid "<a href=\"http://%s%s\" target=\"_blank\" rel=\"nofollow\">Preview</a>"
-msgstr ""
-"<a href=\"http://%s%s\" target=\"_blank\" rel=\"nofollow\">Vorschau</a>"
+msgid "Preview"
+msgstr "Vorschau"
 
 msgid "Check selected external URLs"
 msgstr "Ausgewähle externe URLs überprüfen"
-
-#, python-format
-msgid "<a href=\"%s\" target=\"_blank\" rel=\"nofollow\">Preview</a>"
-msgstr "<a href=\"%s\" target=\"_blank\" rel=\"nofollow\">Vorschau</a>"
 
 msgid "User"
 msgstr "Benutzer"
@@ -106,11 +98,17 @@ msgstr "SSH"
 msgid "Password"
 msgstr "Passwort"
 
-msgid "Public Key"
-msgstr "Public key"
+msgid "Key"
+msgstr "Schlüssel"
 
 msgid "Title"
 msgstr "Titel"
+
+msgid "Target domain"
+msgstr "Zieldomain"
+
+msgid "Will be used to replace domains inside of absolute links (e.g. www.example.com)"
+msgstr "Wird verwendet um Domains innerhalb von absoluten Links auszutauschen (z.B. www.example.com)"
 
 msgid "URL"
 msgstr "URL"
@@ -124,14 +122,32 @@ msgstr "Typ"
 msgid "Host"
 msgstr "Host"
 
-msgid "E.g. ssh.server.com"
+msgid "e.g. ssh.server.com"
 msgstr "z.B. ssh.server.com"
+
+msgid "chmod"
+msgstr ""
+
+msgid "e.g. u-rwx,o+rwx"
+msgstr "z.B. u-rwx,o+rwx"
+
+msgid "chown"
+msgstr ""
+
+msgid "e.g. www-data:www-data"
+msgstr "z.B. www-data:www-data"
 
 msgid "Path"
 msgstr "Pfad"
 
 msgid "Authentication type"
 msgstr "Authentifizierungstyp"
+
+msgid "SSH key path"
+msgstr "SSH Key Pfad"
+
+msgid "e.g. /home/user/.ssh/id_rsa"
+msgstr "z.B. /home/user/.ssh/id_rsa"
 
 msgid "Deployment host"
 msgstr "Deploymenthost"
@@ -141,6 +157,15 @@ msgstr "Deploymenthosts"
 
 msgid "Valid"
 msgstr "Gültig"
+
+msgid "URL must start with a leading slash (e.g. /en/)"
+msgstr "Die URL muss mit einem Slash beginnen (z.B. /de/)"
+
+msgid "Date added"
+msgstr "Hinzugefügt am"
+
+msgid "Date modified"
+msgstr "Geändert am"
 
 msgid "URLs"
 msgstr "URLs"
@@ -156,6 +181,36 @@ msgstr "Externe URL"
 
 msgid "External URLs"
 msgstr "Externe URLs"
+
+msgid "Deploy release"
+msgstr "Release veröffentlichen"
+
+msgid "Files"
+msgstr "Dateien"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Create new release"
+msgstr "Neuen Release erstellen"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Please correct the error below."
+msgstr ""
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Run deployment"
+msgstr "Deployment starten"
+
+msgid "Please wait while deployment is running"
+msgstr "Bitte warten Sie, während das Deployment läuft"
+
+msgid "Crawl CMS URLs"
+msgstr ""
 
 #, python-format
 msgid "Release %s has been created successfully."
@@ -176,46 +231,3 @@ msgstr "Der Zielpfad \"%s\" existiert nicht."
 #, python-format
 msgid "Release \"%s\" was deployed successfully."
 msgstr "Release \"%s\" wurde erfolgreich veröffentlicht."
-
-msgid "Home"
-msgstr "Home"
-
-msgid "Add"
-msgstr "Hinzufügen"
-
-msgid "History"
-msgstr "Geschichte"
-
-msgid "View on site"
-msgstr "Auf der Seite zeigen"
-
-msgid "Delete"
-msgstr "Löschen"
-
-msgid "Back to overview"
-msgstr "Zurück zur Übersicht"
-
-msgid "Deploy this release"
-msgstr "Release veröffentlich"
-
-msgid "Create new release"
-msgstr "Neuen Release erstellen"
-
-msgid "Filter"
-msgstr "Filter"
-
-msgid "Please choose from a host."
-msgstr "Bitte einen Host auswählen."
-
-msgid "Cancel"
-msgstr "Abbrechen"
-
-msgid "Run deployment"
-msgstr "Deployment starten"
-
-msgid "Please wait while deployment is running"
-msgstr "Bitte warten Sie, während das Deployment läuft"
-
-#, python-format
-msgid "Add %(name)s"
-msgstr "%(name)s hinzufügen"

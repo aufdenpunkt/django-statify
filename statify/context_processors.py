@@ -2,8 +2,8 @@
 #
 
 # Project imports
-import settings
+from statify import settings
 
 
 def statify_root_static_url(request):
-    return { 'STATIFY_ROOT_STATIC_URL': settings.STATIFY_ROOT_STATIC_URL }
+    return { 'STATIFY_ROOT_FILES_URL': settings.STATIFY_ROOT_FILES_URL }

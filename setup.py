@@ -6,7 +6,7 @@ from setuptools import setup
 
 
 DEPENDENCY_LINKS = [
-    'https://github.com/christian-schweinhardt/django-medusa.git#egg=django_medusa'
+    'https://github.com/mtigas/django-medusa/tarball/master#egg=django_medusa'
 ]
 
 
@@ -32,12 +32,12 @@ CLASSIFIERS = [
 setup(
     name='django-statify',
     description='Build out a static version of your website.',
-    version='0.2.0',
+    version='0.3.0',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
     license='BSD',
-    url='https://github.com/christian-schweinhardt/django-statify',
-    download_url='https://github.com/christian-schweinhardt/django-statify.git',
+    url='https://github.com/aufdenpunkt/django-statify',
+    download_url='https://github.com/aufdenpunkt/django-statify.git',
     package_dir={'statify': 'statify'},
     packages=['statify'],
     zip_safe=False,

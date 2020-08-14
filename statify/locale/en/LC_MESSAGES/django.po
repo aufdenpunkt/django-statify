@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-statify\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 09:58+0200\n"
+"POT-Creation-Date: 2020-08-14 17:13+0200\n"
 "PO-Revision-Date: 2013-04-24 09:59+0100\n"
 "Last-Translator: Christian Schweinhardt <are.u.kidding@me.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,28 +19,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#, python-format
-msgid "<a href=\"%s%s\" target=\"_blank\">Download</a>"
-msgstr ""
-
-msgid "Archive"
-msgstr ""
-
-#, python-format
-msgid ""
-"<a href=\"/admin/statify/release/%s/deploy/select/\">Deploy this release</a>"
-msgstr ""
-
-msgid "Deployment"
-msgstr ""
-
 msgid "Selected Releases were deleted successfully."
 msgstr ""
 
 msgid "Delete selected releases."
 msgstr ""
 
-msgid "Server"
+msgid "Download"
+msgstr ""
+
+msgid "Archive"
+msgstr ""
+
+msgid "Deploy"
+msgstr ""
+
+msgid "Deployment"
+msgstr ""
+
+msgid "Archive size"
+msgstr ""
+
+msgid "Server settings"
 msgstr ""
 
 msgid "Authentication"
@@ -62,15 +62,10 @@ msgstr ""
 msgid "Check selected URLs"
 msgstr ""
 
-#, python-format
-msgid "<a href=\"http://%s%s\" target=\"_blank\" rel=\"nofollow\">Preview</a>"
+msgid "Preview"
 msgstr ""
 
 msgid "Check selected external URLs"
-msgstr ""
-
-#, python-format
-msgid "<a href=\"%s\" target=\"_blank\" rel=\"nofollow\">Preview</a>"
 msgstr ""
 
 msgid "User"
@@ -103,10 +98,16 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-msgid "Public Key"
+msgid "Key"
 msgstr ""
 
 msgid "Title"
+msgstr ""
+
+msgid "Target domain"
+msgstr ""
+
+msgid "Will be used to replace domains inside of absolute links (e.g. www.example.com)"
 msgstr ""
 
 msgid "URL"
@@ -121,13 +122,31 @@ msgstr ""
 msgid "Host"
 msgstr ""
 
-msgid "E.g. ssh.server.com"
+msgid "e.g. ssh.server.com"
+msgstr ""
+
+msgid "chmod"
+msgstr ""
+
+msgid "e.g. u-rwx,o+rwx"
+msgstr ""
+
+msgid "chown"
+msgstr ""
+
+msgid "e.g. www-data:www-data"
 msgstr ""
 
 msgid "Path"
 msgstr ""
 
 msgid "Authentication type"
+msgstr ""
+
+msgid "SSH key path"
+msgstr ""
+
+msgid "e.g. /home/user/.ssh/id_rsa"
 msgstr ""
 
 msgid "Deployment host"
@@ -137,6 +156,15 @@ msgid "Deployment hosts"
 msgstr ""
 
 msgid "Valid"
+msgstr ""
+
+msgid "URL must start with a leading slash (e.g. /en/)"
+msgstr ""
+
+msgid "Date added"
+msgstr ""
+
+msgid "Date modified"
 msgstr ""
 
 msgid "URLs"
@@ -152,6 +180,36 @@ msgid "External URL"
 msgstr ""
 
 msgid "External URLs"
+msgstr ""
+
+msgid "Deploy release"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Create new release"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Please correct the error below."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Run deployment"
+msgstr ""
+
+msgid "Please wait while deployment is running"
+msgstr ""
+
+msgid "Crawl CMS URLs"
 msgstr ""
 
 #, python-format
@@ -172,47 +230,4 @@ msgstr ""
 
 #, python-format
 msgid "Release \"%s\" was deployed successfully."
-msgstr ""
-
-msgid "Home"
-msgstr ""
-
-msgid "Add"
-msgstr ""
-
-msgid "History"
-msgstr ""
-
-msgid "View on site"
-msgstr ""
-
-msgid "Delete"
-msgstr ""
-
-msgid "Back to overview"
-msgstr ""
-
-msgid "Deploy this release"
-msgstr ""
-
-msgid "Create new release"
-msgstr ""
-
-msgid "Filter"
-msgstr ""
-
-msgid "Please choose from a host."
-msgstr ""
-
-msgid "Cancel"
-msgstr ""
-
-msgid "Run deployment"
-msgstr ""
-
-msgid "Please wait while deployment is running"
-msgstr ""
-
-#, python-format
-msgid "Add %(name)s"
 msgstr ""

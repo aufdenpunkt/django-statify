@@ -1,49 +1,77 @@
 # -*- coding: utf-8 -*-
-#
 
-# 3rd party imports
+import tarfile
+from cms.models import Title
+from cms.utils import get_current_site
+from cms.utils.i18n import get_public_languages
 from django import forms
 from django.conf import settings
-from django.contrib import admin
-from django.contrib import messages
+from django.contrib import admin, messages
 from django.contrib.sites.models import Site
+from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.template.defaultfilters import filesizeformat
+from django.urls import path, reverse
+from django.utils import translation
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 # Project imports
-from models import ExternalURL, URL, Release, DeploymentHost
-from utils import url_is_valid
-
+from statify.models import URL, DeploymentHost, ExternalURL, Release
+from statify.utils import url_is_valid
+from statify.views import deploy_release, deploy_select_release, make_release
 
 # Global variables
 CURRENT_SITE = Site.objects.get_current()
 
+def delete_releases(modeladmin, request, queryset):
+    for release in queryset:
+        release.delete()
+    messages.success(request, _('Selected Releases were deleted successfully.'))
+delete_releases.short_description = _("Delete selected releases.")
 
 class ReleaseAdmin(admin.ModelAdmin):
-    list_display = ('date_created', 'timestamp', 'user', 'download', 'deploy',)
+    list_display = ('date_created', 'timestamp', 'user', 'archive_size', 'download', 'deploy',)
     list_filter = ('date_created', 'user',)
     ordering = ('-date_created',)
     exclude = ('user',)
     readonly_fields = ('user', 'timestamp', 'date_created', 'archive',)
-    actions = ('delete_releases',)
+    actions = (delete_releases,)
+    change_form_template = 'admin/statify/release/change_form.html'
 
     def has_add_permission(self, request):
         return False
 
+    def get_urls(self):
+        urls = super().get_urls()
+        additional_urls = [
+            path('make/', self.admin_site.admin_view(make_release), name='statify_release_make_release'),
+            path('<int:release_id>/deploy/select/', self.admin_site.admin_view(deploy_select_release), name='statify_release_deploy_select_release'),
+            path('<int:release_id>/deploy/<int:deploymenthost_id>/', self.admin_site.admin_view(deploy_release), name='statify_release_deploy_release'),
+        ]
+        return additional_urls + urls
+
+    @mark_safe
     def download(self, instance):
-        return _('<a href="%s%s" target="_blank">Download</a>') % (settings.STATIC_URL, instance.archive)
+        return '<a href="{}">{}</a>'.format(
+            instance.archive.url,
+            _('Download')
+        )
     download.short_description = _('Archive')
     download.allow_tags = True
 
+    @mark_safe
     def deploy(self, instance):
-        return _('<a href="/admin/statify/release/%s/deploy/select/">Deploy this release</a>') % (instance.id)
+        return '<a href="{}">{}</a>'.format(
+            reverse('admin:statify_release_deploy_select_release', args=(instance.pk,)),
+            _('Deploy')
+        )
     deploy.short_description = _('Deployment')
     deploy.allow_tags = True
 
-    def delete_releases(modeladmin, request, queryset):
-        for release in queryset:
-            release.delete()
-        messages.success(request, _('Selected Releases were deleted successfully.'))
-    delete_releases.short_description = _("Delete selected releases.")
+    def archive_size(self, instance):
+        return filesizeformat(instance.archive.size)
+    archive_size.short_description = _('Archive size')
 
     # Remove default query delete
     def get_actions(self, request):
@@ -51,21 +79,49 @@ class ReleaseAdmin(admin.ModelAdmin):
         del actions['delete_selected']
         return actions
 
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        release = Release.objects.get(pk=object_id)
+        tar = tarfile.open(release.archive.path)
+        files = [file.path for file in tar.getmembers() if file.isfile()]
+        extra_context = extra_context or {}
+        extra_context['files'] = files
+        return super(ReleaseAdmin, self).change_view(
+            request,
+            object_id,
+            form_url,
+            extra_context=extra_context,
+        )
+
 admin.site.register(Release, ReleaseAdmin)
 
 
 class DeploymentHostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'type', 'path', 'user')
+    list_display = ('title', 'type', 'path', 'chmod', 'user')
     list_filter = ('type',)
     fieldsets = (
         (None, {
-            'fields': ('type', 'title', 'url',),
+            'fields': (
+                'type',
+                'title',
+                'url',
+                'target_domain',
+            ),
         }),
-        (_('Server'), {
-            'fields': ('host', 'path',),
+        (_('Server settings'), {
+            'fields': (
+                'host',
+                'path',
+                'chown',
+                'chmod',
+            ),
         }),
         (_('Authentication'), {
-            'fields': ('authtype', 'user', 'password',),
+            'fields': (
+                'authtype',
+                'user',
+                'password',
+                'ssh_key_path',
+            ),
             'classes': ('wide',)
         }),
     )
@@ -76,6 +132,7 @@ admin.site.register(DeploymentHost, DeploymentHostAdmin)
 class URLForm(forms.ModelForm):
     class Meta:
         model = URL
+        fields = '__all__'
 
     def clean(self):
         # Check if url is entered
@@ -103,28 +160,62 @@ class URLForm(forms.ModelForm):
 def validate_urls(modeladmin, request, queryset):
     for u in queryset:
         url = u'http://%s%s' % (CURRENT_SITE, u)
-
         if url_is_valid(url):
             u.is_valid = True
         else:
             u.is_valid = False
-
         u.save()
 validate_urls.short_description = _('Check selected URLs')
 
 
 class URLAdmin(admin.ModelAdmin):
     exclude = ('is_valid',)
-    list_display = ('url', 'is_valid', 'preview_url',)
-    list_filter = ('is_valid',)
+    list_display = ('url', 'date_added', 'is_valid', 'preview_url',)
+    list_filter = ('is_valid', 'date_added')
     actions = [validate_urls]
-    form = URLForm
+    readonly_fields = ('date_added', 'date_modified')
     ordering = ('url',)
 
+    @mark_safe
     def preview_url(self, instance):
-        return _('<a href="http://%s%s" target="_blank" rel="nofollow">Preview</a>') % (CURRENT_SITE, instance.url)
-    preview_url.short_description = u''
+        return '<a href="//{}" target="_blank" rel="nofollow">{}</a>'.format(
+            CURRENT_SITE + instance.url,
+            _('Preview')
+        )
+    preview_url.short_description = _('Preview')
     preview_url.allow_tags = True
+
+    def _get_cms_titles(self):
+        languages = get_public_languages(site_id=CURRENT_SITE.pk)
+        items = Title.objects.public().filter(
+            Q(redirect='') | Q(redirect__isnull=True),
+            language__in=languages,
+            page__login_required=False,
+            page__node__site=CURRENT_SITE,
+        ).order_by('page__node__path')
+        return items
+
+    def crawl_cms_urls(self, request):
+        if settings.STATIFY_USE_CMS and 'cms' in settings.INSTALLED_APPS:
+            existing_urls = URL.objects.all().values_list('url', flat=True)
+            titles = self._get_cms_titles()
+            scheme = request.is_secure() and 'https' or 'http'
+            for title in titles:
+                translation.activate(title.language)
+                url = title.page.get_absolute_url(title.language)
+                absolute_url = '%s://%s%s' % (scheme, CURRENT_SITE, url)
+                translation.deactivate()
+                if not url_is_valid(absolute_url) or url in existing_urls:
+                    continue
+                URL(url=url, is_valid=True).save()
+        return HttpResponseRedirect(reverse('admin:statify_url_changelist'))
+
+    def get_urls(self):
+        urls = super().get_urls()
+        additional_urls = [
+            path('crawl-cms-urls/', self.crawl_cms_urls, name='statify_url_crawl_cms_urls'),
+        ]
+        return additional_urls + urls
 
 admin.site.register(URL, URLAdmin)
 
@@ -135,7 +226,6 @@ def validate_external_urls(modeladmin, request, queryset):
             u.is_valid = True
         else:
             u.is_valid = False
-
         u.save()
 validate_external_urls.short_description = _('Check selected external URLs')
 
@@ -143,6 +233,7 @@ validate_external_urls.short_description = _('Check selected external URLs')
 class ExternalURLForm(forms.ModelForm):
     class Meta:
         model = ExternalURL
+        fields = '__all__'
 
     def clean(self):
         # Check if url is entered
@@ -171,7 +262,10 @@ class ExternalURLAdmin(admin.ModelAdmin):
     actions = [validate_external_urls]
 
     def preview_url(self, instance):
-        return _('<a href="%s" target="_blank" rel="nofollow">Preview</a>') % (instance.url)
+        return '<a href="{}" target="_blank" rel="nofollow">{}</a>'.format(
+            instance.url,
+            _('Preview')
+        )
     preview_url.short_description = u''
     preview_url.allow_tags = True
 

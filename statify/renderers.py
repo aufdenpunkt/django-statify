@@ -2,20 +2,18 @@
 #
 
 # 3rd party imports
-from django_medusa.renderers import StaticSiteRenderer
+from django_medusa.renderers import DiskStaticSiteRenderer
 
 # Project imports
-from models import URL
+from statify.models import URL
 
 
-class UrlsRenderer(StaticSiteRenderer):
+class UrlsRenderer(DiskStaticSiteRenderer):
     def get_paths(self):
         paths = []
         urls = URL.objects.filter(is_valid=True)
-
         for url in urls:
             paths.append(url.url)
-
         return paths
 
 renderers = [UrlsRenderer,]

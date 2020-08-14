@@ -1,40 +1,44 @@
 # -*- coding: utf-8 -*-
 #
 
-# Core imports
+import ftplib
 import os
-import tarfile
+import re
 import shutil
+import tarfile
 import time
-import requests
+from pathlib import Path
 from subprocess import call
 
-# 3rd party imports
-from django.template import RequestContext
-from django.http import HttpResponseRedirect
-from django.contrib import messages
+import paramiko
+import requests
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, get_object_or_404
+from django.contrib.sites.models import Site
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.template import RequestContext
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 
-# Project imports
-from models import Release, ExternalURL
+import statify.settings as statify_settings
+from statify.forms import DeployForm
+from statify.models import DeploymentHost, ExternalURL, Release
+
+
+CURRENT_SITE = Site.objects.get_current()
 
 
 @login_required()
 def make_release(request):
     from django.core.management import call_command
-    import settings as app_settings
 
-    timestamp = u'%s' % (time.time())
-    htdocs = u'htdocs.%s.tar.gz' % (timestamp)
-    upload_path = app_settings.STATIFY_UPLOAD_PATH
-    absolute_path = os.path.join(settings.MEDIA_ROOT, app_settings.STATIFY_UPLOAD_PATH)
+    timestamp = '%s' % (time.time())
+    htdocs = 'htdocs.%s.tar.gz' % (timestamp)
+    upload_path = statify_settings.STATIFY_UPLOAD_PATH
+    absolute_path = os.path.join(settings.MEDIA_ROOT, statify_settings.STATIFY_UPLOAD_PATH)
     external_url_list = ExternalURL.objects.filter(is_valid=True)
-    static_root = app_settings.STATIFY_ROOT_STATIC
-
-    release = Release(user=request.user, timestamp=timestamp)
 
     # If htdocs already exists, remove
     if os.path.isdir(settings.MEDUSA_DEPLOY_DIR):
@@ -43,8 +47,17 @@ def make_release(request):
     else:
         os.makedirs(settings.MEDUSA_DEPLOY_DIR)
 
+    version_file = open(os.path.join(settings.MEDUSA_DEPLOY_DIR, 'version.txt'), 'w')
+    version_file.write(str(timestamp))
+    version_file.close()
+
     # Call command to run medusa and statify all registered urls
-    call(['python', 'manage.py', 'staticsitegen', app_settings.STATIFY_BUILD_SETTINGS])
+    call([
+        'python',
+        'manage.py',
+        'staticsitegen',
+        statify_settings.STATIFY_BUILD_SETTINGS
+    ])
 
     # Create files from external urls
     for external_url in external_url_list:
@@ -68,81 +81,104 @@ def make_release(request):
         filename.write(content)
         filename.close()
 
-    # Call to collect all media to static
-    call_command('collectstatic', interactive=False, ignore_patterns=app_settings.STATIFY_EXCLUDED_MEDIA,)
-
-    # Copy static root files to release
-    if os.path.isdir(static_root):
-        root_files = os.listdir(static_root)
-        for f in root_files:
-            filepath = os.path.join(static_root, f)
+    # Copy root files to builded htdocs
+    if os.path.isdir(statify_settings.STATIFY_ROOT_FILES):
+        files = os.listdir(statify_settings.STATIFY_ROOT_FILES)
+        for file in files:
+            filepath = os.path.join(statify_settings.STATIFY_ROOT_FILES, file)
             shutil.copy(filepath, settings.MEDUSA_DEPLOY_DIR)
 
-    # Move media to builded htdocs
-    shutil.move(os.path.join(app_settings.STATIFY_PROJECT_DIR, 'static'),
-        os.path.join(settings.MEDUSA_DEPLOY_DIR, 'static'))
-    shutil.rmtree(os.path.join(app_settings.STATIFY_PROJECT_DIR, 'static'),
-        ignore_errors=True,)
+    # Copy static files to builded htdocs
+    if not statify_settings.STATIFY_IGNORE_STATIC:
+        shutil.copytree(
+            os.path.join(statify_settings.STATIFY_PROJECT_DIR, 'static'),
+            os.path.join(settings.MEDUSA_DEPLOY_DIR, 'static'),
+            ignore=shutil.ignore_patterns(*statify_settings.STATIFY_EXCLUDED_STATIC)
+        )
+
+    # Copy media files to builded htdocs
+    if not statify_settings.STATIFY_IGNORE_MEDIA:
+        shutil.copytree(
+            os.path.join(settings.STATIFY_PROJECT_DIR, 'media'),
+            os.path.join(settings.MEDUSA_DEPLOY_DIR, 'media'),
+            ignore=shutil.ignore_patterns('statify')
+        )
 
     # Create tar.gz from htdocs and move it to media folder
     dirlist = os.listdir(settings.MEDUSA_DEPLOY_DIR)
     archive = tarfile.open(htdocs, 'w:gz')
-
     for obj in dirlist:
         path = os.path.join(settings.MEDUSA_DEPLOY_DIR, obj)
         archive.add(path, arcname=obj)
     archive.close()
-
     if not os.path.isdir(absolute_path):
         os.makedirs(absolute_path)
-
     shutil.move(os.path.join(settings.STATIFY_PROJECT_DIR, htdocs), os.path.join(absolute_path, htdocs))
 
     # Remove htdocs and tmp dir
     shutil.rmtree(settings.MEDUSA_DEPLOY_DIR, ignore_errors=True,)
-    shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'tmp'))
+    # shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'tmp'))
 
-    # Update release object and save the model
+    # Save new release object
+    release = Release(user=request.user, timestamp=timestamp)
     release.archive = u'%s%s' % (upload_path, htdocs)
     release.save()
-
     messages.success(request, _('Release %s has been created successfully.') % (release.date_created))
-
-    return HttpResponseRedirect(u'/admin/statify/release/')
+    return HttpResponseRedirect(reverse('admin:statify_release_change', args=(release.pk,)))
 
 
 @login_required()
 def deploy_select_release(request, release_id):
-    from forms import DeployForm
-
     if request.POST:
         form = DeployForm(request.POST)
-
         if form.is_valid():
             form.cleaned_data
             host = request.POST['deploymenthost']
-
             return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/%s/' % (release_id, host))
     else:
         form = DeployForm()
 
-    return render_to_response(
-        'admin/statify/release/deploy_form.html',
-        { 'form': form, 'release_id': release_id },
-        context_instance=RequestContext(request))
+    return render(
+        request=request,
+        template_name = 'admin/statify/release/deploy_form.html',
+        context = {
+            'form': form,
+            'release_id': release_id
+        }
+    )
 
 
 @login_required()
 def deploy_release(request, release_id, deploymenthost_id):
-    import ftplib
-    from paramiko import SSHClient, SFTPClient
-    from models import DeploymentHost
-
     release = get_object_or_404(Release, pk=release_id)
     deploymenthost = get_object_or_404(DeploymentHost, pk=deploymenthost_id)
     archive = os.path.join(settings.MEDIA_ROOT, u'%s' % release.archive)
     directory = deploymenthost.path.split('/')[-1]
     tmp_path = os.path.join(settings.MEDUSA_DEPLOY_DIR, '..', 'deploy', release.timestamp)
+
+    if not os.path.isdir(tmp_path):
+        os.makedirs(tmp_path)
+    else:
+        shutil.rmtree(tmp_path, ignore_errors=True)
+        os.makedirs(tmp_path)
+    call(['tar', 'xfz', archive, '-C', tmp_path])
+
+    # Replace hostnames
+    path_of_tmp_path = Path(tmp_path)
+    html_files = [item for item in path_of_tmp_path.glob('**/*.html') if item.is_file()]
+    xml_files = [item for item in path_of_tmp_path.glob('**/*.xml') if item.is_file()]
+    json_files = [item for item in path_of_tmp_path.glob('**/*.json') if item.is_file()]
+    css_files = [item for item in path_of_tmp_path.glob('**/*.css') if item.is_file()]
+    txt_files = [item for item in path_of_tmp_path.glob('**/*.txt') if item.is_file()]
+    all_files = html_files + xml_files + json_files + css_files + txt_files
+    for file in all_files:
+        fin = open(file, "rt")
+        data = fin.read()
+        data = re.sub(r'(http|https)(:\/\/{})'.format(CURRENT_SITE.domain), deploymenthost.target_domain, data)
+        fin.close()
+        fin = open(file, "wt")
+        fin.write(data)
+        fin.close()
 
     # Local deployment
     if deploymenthost.type is 0:
@@ -151,7 +187,9 @@ def deploy_release(request, release_id, deploymenthost_id):
         else:
             shutil.rmtree(deploymenthost.path, ignore_errors=True)
             os.makedirs(deploymenthost.path)
-        call(['tar', 'xfvz', archive, '-C', deploymenthost.path])
+        files = os.listdir(tmp_path)
+        for file in files:
+            shutil.move(os.path.join(tmp_path, file), deploymenthost.path)
 
     # FTP deployment
     elif deploymenthost.type is 1:
@@ -185,17 +223,8 @@ def deploy_release(request, release_id, deploymenthost_id):
                 _('The target path "%s" does not exist.') % (deploymenthost.path))
             return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
-        if not os.path.isdir(tmp_path):
-            os.makedirs(tmp_path)
-        else:
-            shutil.rmtree(tmp_path, ignore_errors=True)
-            os.makedirs(tmp_path)
-
-        # Extract archive to temporaly path
-        call(['tar', 'xzfv', archive, '-C', tmp_path])
-        paths = os.listdir(tmp_path)
-
         # Upload all
+        paths = os.listdir(tmp_path)
         for path in paths:
             src_dir = os.path.join(tmp_path, path)
             call(['ncftpput', '-R',
@@ -209,37 +238,45 @@ def deploy_release(request, release_id, deploymenthost_id):
     # SSH deployment
     elif deploymenthost.type is 2:
         # Check if host is available
-        try:
-            client = SSHClient()
-            client.load_system_host_keys()
-            client.connect(hostname=deploymenthost.host, username=deploymenthost.user)
-            channel = client.get_transport()
-            scp = SFTPClient.from_transport(channel)
-        except:
-            messages.error(request,
-                _('Deployment host "%s" is not available.') % (deploymenthost.host))
-            return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
+        # try:
+        # client = paramiko.SSHClient()
+        # client.load_system_host_keys()
+        # client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        # key = paramiko.RSAKey.from_private_key_file("/Users/chschw/.ssh/id_rsa", password='stop27_@Crossfisted')
+        # client.connect(
+        #     hostname=deploymenthost.host,
+        #     username=deploymenthost.user,
+        #     pkey=key
+        # )
+        # channel = client.get_transport()
+        # scp = paramiko.SFTPClient.from_transport(channel)
+        # # except:
+        #     # messages.error(request,
+        #     #     _('Deployment host "%s" is not available.') % (deploymenthost.host))
+        #     # return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
-        # Check if directory exists
-        try:
-            scp.stat(deploymenthost.path)
-        except:
-            messages.error(request,
-                _('The target path "%s" does not exist.') % (deploymenthost.path))
-            return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
+        # # Check if directory exists
+        # try:
+        #     scp.stat(deploymenthost.path)
+        # except:
+        #     messages.error(request,
+        #         _('The target path "%s" does not exist.') % (deploymenthost.path))
+        #     return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
-        if not os.path.isdir(tmp_path):
-            os.makedirs(tmp_path)
-        else:
-            shutil.rmtree(tmp_path, ignore_errors=True)
-            os.makedirs(tmp_path)
-
-        call(['tar', 'xzfv', archive, '-C', tmp_path])
-        paths = os.listdir(tmp_path)
-
-        for path in paths:
-            src_dir = os.path.join(tmp_path, path)
-            call(['scp', '-r', src_dir, deploymenthost.path])
+        src = tmp_path + '/'
+        destination = '{}@{}:{}'.format(deploymenthost.user, deploymenthost.host, deploymenthost.path)
+        rsync_args = ['rsync', '-av', '--update', '--delete']
+        if deploymenthost.ssh_key_path:
+            rsync_args.append('-e "ssh -i {}"'.format(deploymenthost.ssh_key_path))
+        if deploymenthost.chmod:
+            rsync_args.append('--chmod={}'.format(deploymenthost.chmod))
+        if deploymenthost.chown:
+            owner = deploymenthost.chown.split(':')[0]
+            group = deploymenthost.chown.split(':')[1]
+            rsync_args.append('--usermap=*:{}'.format(owner))
+            rsync_args.append('--groupmap=*:{}'.format(group))
+        rsync_command = rsync_args + [src, destination]
+        call(rsync_command)
 
     # Remove trash
     shutil.rmtree(tmp_path, ignore_errors=True)

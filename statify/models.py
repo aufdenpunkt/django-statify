@@ -4,14 +4,15 @@
 # 3rd party imports
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 from django.utils.translation import ugettext as _
 
 # Project imports
-import settings
+from statify import settings
 
 
 class Release(models.Model):
-    user = models.ForeignKey(User, verbose_name=_('User'))
+    user = models.ForeignKey(User, verbose_name=_('User'), null=True, on_delete=models.SET_NULL)
     date_created = models.DateTimeField(_('Created on'), auto_now_add=True)
     timestamp = models.CharField(_('Timestamp'), max_length=32)
     archive = models.FileField(_('Archive'), upload_to=settings.STATIFY_UPLOAD_PATH, blank=True)
@@ -23,6 +24,9 @@ class Release(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.date_created)
+
+    def __str__(self):
+        return '%s' % (self.date_created)
 
     def delete(self, *args, **kwargs):
         try:
@@ -47,17 +51,21 @@ class DeploymentHost(models.Model):
 
     AUTHTYPE_CHOICES = (
         (0, _('Password')),
-        (1, _('Public Key')),
+        (1, _('Key')),
     )
 
     title = models.CharField(_('Title'), max_length=100)
+    target_domain = models.CharField(_('Target domain'), max_length=255, help_text=_('Will be used to replace domains inside of absolute links (e.g. www.example.com)'))
     url = models.URLField(_('URL'), blank=True, help_text=_('URL to view the deployed result.'))
     type = models.IntegerField(_('Type'), choices=TYPE_CHOICES)
-    host = models.CharField(_('Host'), max_length=80, blank=True, help_text=_('E.g. ssh.server.com'))
-    user = models.CharField(_('User'), max_length=80, blank=True)
+    host = models.CharField(_('Host'), max_length=80, blank=True, null=True, help_text=_('e.g. ssh.server.com'))
+    chmod = models.CharField(_('chmod'), max_length=80, blank=True, null=True, help_text=_('e.g. u-rwx,o+rwx'))
+    chown = models.CharField(_('chown'), max_length=80, blank=True, null=True, help_text=_('e.g. www-data:www-data'))
+    user = models.CharField(_('User'), max_length=80, blank=True, null=True)
     path = models.CharField(_('Path'), max_length=255, help_text=u'Please specify the target directory.')
     authtype = models.IntegerField(_('Authentication type'), choices=AUTHTYPE_CHOICES, blank=True, null=True)
-    password = models.CharField(_('Password'), max_length=80, blank=True)
+    password = models.CharField(_('Password'), max_length=255, blank=True, null=True)
+    ssh_key_path = models.CharField(_('SSH key path'), max_length=255, blank=True, null=True, help_text=_('e.g. /home/user/.ssh/id_rsa'))
 
     class Meta:
         app_label = u'statify'
@@ -67,10 +75,29 @@ class DeploymentHost(models.Model):
     def __unicode__(self):
         return u'%s: %s' % (self.get_type_display(), self.title,)
 
+    def __str__(self):
+        return '%s: %s' % (self.get_type_display(), self.title,)
+
 
 class URL(models.Model):
-    is_valid = models.BooleanField(_('Valid'), default=True)
-    url = models.CharField(_('URL'), max_length=255, default='/', unique=True)
+    is_valid = models.BooleanField(
+        _('Valid'),
+        default=False,
+    )
+    url = models.CharField(
+        _('URL'),
+        max_length=255,
+        unique=True,
+        validators=[RegexValidator('(^\/[A-Za-z0-9\-\_\%\?\&\=]+)', _('URL must start with a leading slash (e.g. /en/)'))],
+    )
+    date_added = models.DateTimeField(
+        _('Date added'),
+        auto_now_add=True
+    )
+    date_modified = models.DateTimeField(
+        _('Date modified'),
+        auto_now=True
+    )
 
     class Meta:
         app_label = u'statify'
@@ -79,6 +106,9 @@ class URL(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.url)
+
+    def __str__(self):
+        return self.url
 
 
 class ExternalURL(models.Model):
