@@ -10,7 +10,7 @@ INSTALL_REQUIRES = [
     'requests>=1.1.0',
     'paramiko>=1.10.0',
     'scpclient>=0.4',
-    'requests @ git+ssh://git@github.com/aufdenpunkt/django-medusa.git@v0.3.2',
+    'django-medusa @ git+ssh://git@github.com/aufdenpunkt/django-medusa.git@v0.3.2',
 ]
 
 
@@ -28,7 +28,7 @@ CLASSIFIERS = [
 setup(
     name='django-statify',
     description='Build out a static version of your website.',
-    version='0.3.0',
+    version='0.3.1',
     author='Christian Schweinhardt',
     author_email='are.u.kidding@me.com',
     license='BSD',
