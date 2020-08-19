@@ -10,7 +10,7 @@ INSTALL_REQUIRES = [
     'requests>=1.1.0',
     'paramiko>=1.10.0',
     'scpclient>=0.4',
-    'requests @ git+ssh://git@github.com/aufdenpunkt/django-medusa.git@master',
+    'requests @ git+ssh://git@github.com/aufdenpunkt/django-medusa.git@v0.3.2',
 ]
 
 
