@@ -5,16 +5,12 @@
 from setuptools import setup
 
 
-DEPENDENCY_LINKS = [
-    'https://github.com/aufdenpunkt/django-medusa/tarball/master#egg=django-medusa-dev'
-]
-
-
 INSTALL_REQUIRES = [
     'Django>=1.3',
     'requests>=1.1.0',
     'paramiko>=1.10.0',
-    'scpclient>=0.4'
+    'scpclient>=0.4',
+    'requests @ git+ssh://git@github.com/aufdenpunkt/django-medusa.git@master',
 ]
 
 
@@ -42,7 +38,6 @@ setup(
     packages=['statify'],
     zip_safe=False,
     install_requires=INSTALL_REQUIRES,
-    dependency_links = DEPENDENCY_LINKS,
     include_package_data=True,
     classifiers=CLASSIFIERS,
 )
