@@ -6,7 +6,7 @@ from setuptools import setup
 
 
 DEPENDENCY_LINKS = [
-    'https://github.com/aufdenpunkt/django-medusa/tarball/master#egg=django_medusa'
+    'https://github.com/aufdenpunkt/django-medusa/tarball/master#egg=django-medusa-dev'
 ]
 
 
