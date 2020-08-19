@@ -47,9 +47,12 @@ def save_handler(sender, **kwargs):
     if settings.STATIFY_USE_CMS and model == 'Title':
         title = kwargs.get('instance')
         absolute_url = title.page.get_absolute_url(title.language)
-        print(title, absolute_url)
         if url_is_valid('http://%s%s' % (current_site, absolute_url)):
-            URL(url=absolute_url).save()
+            try:        
+                URL(url=absolute_url).save()
+                return
+            except:
+                pass
 
     if not model in EXCLUDED_MODELS:
         try:
