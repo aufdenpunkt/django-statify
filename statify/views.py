@@ -93,7 +93,8 @@ def make_release(request):
         shutil.copytree(
             os.path.join(statify_settings.STATIFY_PROJECT_DIR, 'static'),
             os.path.join(settings.MEDUSA_DEPLOY_DIR, 'static'),
-            ignore=shutil.ignore_patterns(*statify_settings.STATIFY_EXCLUDED_STATIC)
+            ignore=shutil.ignore_patterns(*statify_settings.STATIFY_EXCLUDED_STATIC),
+            dirs_exist_ok=True,
         )
 
     # Copy media files to builded htdocs
@@ -101,7 +102,8 @@ def make_release(request):
         shutil.copytree(
             os.path.join(settings.STATIFY_PROJECT_DIR, 'media'),
             os.path.join(settings.MEDUSA_DEPLOY_DIR, 'media'),
-            ignore=shutil.ignore_patterns('statify')
+            ignore=shutil.ignore_patterns('statify'),
+            dirs_exist_ok=True,
         )
 
     # Create tar.gz from htdocs and move it to media folder
