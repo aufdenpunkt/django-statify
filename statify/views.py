@@ -244,7 +244,7 @@ def deploy_release(request, release_id, deploymenthost_id):
         # client = paramiko.SSHClient()
         # client.load_system_host_keys()
         # client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        # key = paramiko.RSAKey.from_private_key_file("/Users/chschw/.ssh/id_rsa", password='stop27_@Crossfisted')
+        # key = paramiko.RSAKey.from_private_key_file("path", password='xxx')
         # client.connect(
         #     hostname=deploymenthost.host,
         #     username=deploymenthost.user,
