@@ -15,5 +15,3 @@ class UrlsRenderer(DiskStaticSiteRenderer):
         for url in urls:
             paths.append(url.url)
         return paths
-
-renderers = [UrlsRenderer,]
