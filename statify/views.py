@@ -9,8 +9,10 @@ import tarfile
 import time
 from pathlib import Path
 from subprocess import call
+from socket import gaierror
 
 import paramiko
+from paramiko.ssh_exception import SSHException, AuthenticationException
 import requests
 from django.conf import settings
 from django.contrib import messages
@@ -21,10 +23,11 @@ from django.shortcuts import get_object_or_404, render
 from django.template import RequestContext
 from django.urls import reverse
 from django.utils.translation import ugettext as _
+from django.core.management import call_command
 
 import statify.settings as statify_settings
 from statify.forms import DeployForm
-from statify.models import DeploymentHost, ExternalURL, Release
+from statify.models import DeploymentHost, ExternalURL, Release, DeploymentTypes, AuthTypes
 
 
 CURRENT_SITE = Site.objects.get_current()
@@ -32,8 +35,6 @@ CURRENT_SITE = Site.objects.get_current()
 
 @login_required()
 def make_release(request):
-    from django.core.management import call_command
-
     timestamp = '%s' % (time.time())
     htdocs = 'htdocs.%s.tar.gz' % (timestamp)
     upload_path = statify_settings.STATIFY_UPLOAD_PATH
@@ -184,7 +185,7 @@ def deploy_release(request, release_id, deploymenthost_id):
         fin.close()
 
     # Local deployment
-    if deploymenthost.type == 0:
+    if deploymenthost.type == DeploymentTypes.LOCAL:
         if not os.path.isdir(deploymenthost.path):
             os.makedirs(deploymenthost.path)
         else:
@@ -195,7 +196,7 @@ def deploy_release(request, release_id, deploymenthost_id):
             shutil.move(os.path.join(tmp_path, file), deploymenthost.path)
 
     # FTP deployment
-    elif deploymenthost.type == 1:
+    elif deploymenthost.type == DeploymentTypes.FTP:
         # Check if host is available
         try:
             ftp = ftplib.FTP(deploymenthost.host)
@@ -239,32 +240,56 @@ def deploy_release(request, release_id, deploymenthost_id):
         shutil.rmtree(tmp_path, ignore_errors=True)
 
     # SSH deployment
-    elif deploymenthost.type == 2:
+    elif deploymenthost.type == DeploymentTypes.SSH:
         # Check if host is available
-        # try:
-        # client = paramiko.SSHClient()
-        # client.load_system_host_keys()
-        # client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        # key = paramiko.RSAKey.from_private_key_file("path", password='xxx')
-        # client.connect(
-        #     hostname=deploymenthost.host,
-        #     username=deploymenthost.user,
-        #     pkey=key
-        # )
-        # channel = client.get_transport()
-        # scp = paramiko.SFTPClient.from_transport(channel)
-        # # except:
-        #     # messages.error(request,
-        #     #     _('Deployment host "%s" is not available.') % (deploymenthost.host))
-        #     # return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
+        try:
+            client = paramiko.SSHClient()
+            client.load_system_host_keys()
+            if deploymenthost.authtype == AuthTypes.KEY:
+                client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                if deploymenthost.password:
+                    key = paramiko.RSAKey.from_private_key_file(deploymenthost.ssh_key_path, password=deploymenthost.password)
+                else:
+                    key = paramiko.RSAKey.from_private_key_file(deploymenthost.ssh_key_path)
+                client.connect(
+                    hostname=deploymenthost.host,
+                    username=deploymenthost.user,
+                    pkey=key
+                )
+            elif deploymenthost.authtype == AuthTypes.PASSWORD:
+                client.connect(
+                    hostname=deploymenthost.host,
+                    username=deploymenthost.user,
+                    password=deploymenthost.password
+                )
+            channel = client.get_transport()
+            scp = paramiko.SFTPClient.from_transport(channel)
+        except AuthenticationException:
+            messages.error(
+                request,
+                _('Authentication for host "{}@{}" failed.').format(deploymenthost.masked_user, deploymenthost.host)
+            )
+            return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
+        except gaierror as e:
+            messages.error(
+                request,
+                _('Unknown host "{}".').format(deploymenthost.host)
+            )
+            return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
+        except SSHException as e:
+            messages.error(
+                request,
+                _('Deployment to host "{}" failed with SSH Exception: {}').format(deploymenthost.host, e)
+            )
+            return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
-        # # Check if directory exists
-        # try:
-        #     scp.stat(deploymenthost.path)
-        # except:
-        #     messages.error(request,
-        #         _('The target path "%s" does not exist.') % (deploymenthost.path))
-        #     return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
+        # Check if directory exists
+        try:
+            scp.stat(deploymenthost.path)
+        except:
+            messages.error(request,
+                _('Target path "{}" does not exist on host "{}".').format(deploymenthost.path, deploymenthost.host))
+            return HttpResponseRedirect(u'/admin/statify/release/%s/deploy/select/' % (release.id))
 
         src = tmp_path + '/'
         destination = '{}@{}:{}'.format(deploymenthost.user, deploymenthost.host, deploymenthost.path)

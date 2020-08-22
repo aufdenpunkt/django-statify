@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-statify\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-14 17:13+0200\n"
+"POT-Creation-Date: 2020-08-22 11:54+0200\n"
 "PO-Revision-Date: 2013-04-24 09:59+0100\n"
 "Last-Translator: Christian Schweinhardt <are.u.kidding@me.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,11 +40,23 @@ msgstr "Veröffentlichung"
 msgid "Archive size"
 msgstr "Archivgröße"
 
+msgid "Target"
+msgstr "Ziel"
+
+msgid "Will be used to replace domains including schemes (e.g. https://cms.example.com will become https://www.example.com)"
+msgstr "Wird verwendet, um Domains einschließlich Schemata zu ersetzen (z.B. wird https://cms.example.com zu https://www.example.com)"
+
 msgid "Server settings"
 msgstr "Server-Einstellungen"
 
 msgid "Authentication"
 msgstr "Authentifizierung"
+
+msgid "Path"
+msgstr "Pfad"
+
+msgid "Server"
+msgstr "Server"
 
 msgid "The URL field must be filled."
 msgstr "Das URL Feld muss ausgefüllt sein."
@@ -67,6 +79,12 @@ msgstr "Vorschau"
 
 msgid "Check selected external URLs"
 msgstr "Ausgewähle externe URLs überprüfen"
+
+msgid "Scheme"
+msgstr "Schema"
+
+msgid "Domain"
+msgstr "Domain"
 
 msgid "User"
 msgstr "Benutzer"
@@ -104,17 +122,17 @@ msgstr "Schlüssel"
 msgid "Title"
 msgstr "Titel"
 
+msgid "Target scheme"
+msgstr "Ziel-Schema"
+
 msgid "Target domain"
 msgstr "Zieldomain"
 
-msgid "Will be used to replace domains inside of absolute links (e.g. www.example.com)"
-msgstr "Wird verwendet um Domains innerhalb von absoluten Links auszutauschen (z.B. www.example.com)"
+msgid "e.g. www.example.com"
+msgstr "z.B. www.example.com"
 
-msgid "URL"
-msgstr "URL"
-
-msgid "URL to view the deployed result."
-msgstr "URL zum veröffentlichten Release"
+msgid "The domain name provided is not valid according to RFC 1034/1035."
+msgstr "Der angegebene Domainname ist gemäß RFC 1034/1035 nicht gültig."
 
 msgid "Type"
 msgstr "Typ"
@@ -137,9 +155,6 @@ msgstr ""
 msgid "e.g. www-data:www-data"
 msgstr "z.B. www-data:www-data"
 
-msgid "Path"
-msgstr "Pfad"
-
 msgid "Authentication type"
 msgstr "Authentifizierungstyp"
 
@@ -157,6 +172,9 @@ msgstr "Deploymenthosts"
 
 msgid "Valid"
 msgstr "Gültig"
+
+msgid "URL"
+msgstr "URL"
 
 msgid "URL must start with a leading slash (e.g. /en/)"
 msgstr "Die URL muss mit einem Slash beginnen (z.B. /de/)"
@@ -227,6 +245,18 @@ msgstr "Ihre Zugangsdaten für den Host %s sind ungültig."
 #, python-format
 msgid "The target path \"%s\" does not exist."
 msgstr "Der Zielpfad \"%s\" existiert nicht."
+
+msgid "Authentication for host \"{}@{}\" failed."
+msgstr "Die Authentifizierung für den Host \"{}@{}\" ist fehlgeschlagen."
+
+msgid "Unknown host \"{}\"."
+msgstr "Unbekannter Host \"{}\"."
+
+msgid "Deployment to host \"{}\" failed with SSH Exception: {}"
+msgstr "Deployment auf host \"{}\" ist mit SSH Exception {} fehlgeschlagen"
+
+msgid "Target path \"{}\" does not exist on host \"{}\"."
+msgstr "Der Zielpfad \"{}\" existiert nicht auf dem Host \"{}\"."
 
 #, python-format
 msgid "Release \"%s\" was deployed successfully."

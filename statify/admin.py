@@ -20,6 +20,7 @@ from django.utils.translation import ugettext as _
 from statify.models import URL, DeploymentHost, ExternalURL, Release
 from statify.utils import url_is_valid
 from statify.views import deploy_release, deploy_select_release, make_release
+from statify.forms import DeploymentHostForm
 
 # Global variables
 CURRENT_SITE = Site.objects.get_current()
@@ -96,35 +97,67 @@ admin.site.register(Release, ReleaseAdmin)
 
 
 class DeploymentHostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'type', 'path', 'chmod', 'user')
+    list_display = ('_title', 'server', 'path', 'target')
     list_filter = ('type',)
+    form = DeploymentHostForm
     fieldsets = (
         (None, {
             'fields': (
-                'type',
                 'title',
-                'url',
+                'type',
+                # 'url',
+            ),
+        }),
+        (_('Target'), {
+            'fields': (
+                'target_scheme',
                 'target_domain',
+            ),
+            'description': '<div class="help">{}</div>'.format(
+                _('Will be used to replace domains including schemes (e.g. https://cms.example.com will become https://www.example.com)')
             ),
         }),
         (_('Server settings'), {
             'fields': (
                 'host',
-                'path',
-                'chown',
-                'chmod',
             ),
         }),
         (_('Authentication'), {
             'fields': (
-                'authtype',
                 'user',
+                'authtype',
                 'password',
                 'ssh_key_path',
             ),
-            'classes': ('wide',)
+            # 'classes': ('wide',)
         }),
+        (_('Path'), {
+            'fields': (
+                'path',
+                'chown',
+                'chmod',
+            )
+        })
     )
+
+    def _title(self, instance):
+        return '{}: {}'.format(instance.get_type_display(), instance.title)
+
+    def target(self, instance):
+        url = '{}://{}'.format(instance.target_scheme, instance.target_domain)
+        return mark_safe('<a href="{}" target="_blank">{}</a>'.format(url, url))
+    target.short_description = _('Target')
+    target.allow_tags = True
+
+    def server(self, instance):
+        if instance.type == 0:
+            return None
+        if instance.user:
+            user = instance.masked_user + '@'
+        else:
+            user = ''
+        return '{}{}'.format(user, instance.host)
+    server.short_description = _('Server')
 
 admin.site.register(DeploymentHost, DeploymentHostAdmin)
 

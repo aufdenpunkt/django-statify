@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-statify\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-14 17:13+0200\n"
+"POT-Creation-Date: 2020-08-22 11:54+0200\n"
 "PO-Revision-Date: 2013-04-24 09:59+0100\n"
 "Last-Translator: Christian Schweinhardt <are.u.kidding@me.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,10 +40,22 @@ msgstr ""
 msgid "Archive size"
 msgstr ""
 
+msgid "Target"
+msgstr ""
+
+msgid "Will be used to replace domains including schemes (e.g. https://cms.example.com will become https://www.example.com)"
+msgstr ""
+
 msgid "Server settings"
 msgstr ""
 
 msgid "Authentication"
+msgstr ""
+
+msgid "Path"
+msgstr ""
+
+msgid "Server"
 msgstr ""
 
 msgid "The URL field must be filled."
@@ -66,6 +78,12 @@ msgid "Preview"
 msgstr ""
 
 msgid "Check selected external URLs"
+msgstr ""
+
+msgid "Scheme"
+msgstr ""
+
+msgid "Domain"
 msgstr ""
 
 msgid "User"
@@ -104,16 +122,16 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+msgid "Target scheme"
+msgstr ""
+
 msgid "Target domain"
 msgstr ""
 
-msgid "Will be used to replace domains inside of absolute links (e.g. www.example.com)"
+msgid "e.g. www.example.com"
 msgstr ""
 
-msgid "URL"
-msgstr ""
-
-msgid "URL to view the deployed result."
+msgid "The domain name provided is not valid according to RFC 1034/1035."
 msgstr ""
 
 msgid "Type"
@@ -137,9 +155,6 @@ msgstr ""
 msgid "e.g. www-data:www-data"
 msgstr ""
 
-msgid "Path"
-msgstr ""
-
 msgid "Authentication type"
 msgstr ""
 
@@ -156,6 +171,9 @@ msgid "Deployment hosts"
 msgstr ""
 
 msgid "Valid"
+msgstr ""
+
+msgid "URL"
 msgstr ""
 
 msgid "URL must start with a leading slash (e.g. /en/)"
@@ -226,6 +244,18 @@ msgstr ""
 
 #, python-format
 msgid "The target path \"%s\" does not exist."
+msgstr ""
+
+msgid "Authentication for host \"{}@{}\" failed."
+msgstr ""
+
+msgid "Unknown host \"{}\"."
+msgstr ""
+
+msgid "Deployment to host \"{}\" failed with SSH Exception: {}"
+msgstr ""
+
+msgid "Target path \"{}\" does not exist on host \"{}\"."
 msgstr ""
 
 #, python-format
