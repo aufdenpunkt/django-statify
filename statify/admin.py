@@ -136,7 +136,7 @@ class URLForm(forms.ModelForm):
 
     def clean(self):
         # Check if url is entered
-        if not 'url' in self.cleaned_data or self.cleaned_data['url'] is '':
+        if not 'url' in self.cleaned_data or self.cleaned_data['url'] == '':
             raise forms.ValidationError(_('The URL field must be filled.'))
 
         cleaned_url = self.cleaned_data['url']
@@ -237,7 +237,7 @@ class ExternalURLForm(forms.ModelForm):
 
     def clean(self):
         # Check if url is entered
-        if not 'url' in self.cleaned_data or self.cleaned_data['url'] is '':
+        if not 'url' in self.cleaned_data or self.cleaned_data['url'] == '':
             raise forms.ValidationError(_('The URL field must be filled.'))
 
         cleaned_url = self.cleaned_data['url']

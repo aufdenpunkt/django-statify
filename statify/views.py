@@ -176,14 +176,15 @@ def deploy_release(request, release_id, deploymenthost_id):
     for file in all_files:
         fin = open(file, "rt")
         data = fin.read()
-        data = re.sub(r'(http|https)(:\/\/{})'.format(CURRENT_SITE.domain), deploymenthost.target_domain, data)
+        data = re.sub(r'(http|https):\/\/({})'.format(CURRENT_SITE.domain), '{}://{}'.format(deploymenthost.target_scheme, deploymenthost.target_domain), data)
+        data = re.sub(r'{}'.format(CURRENT_SITE.domain), deploymenthost.target_domain, data)
         fin.close()
         fin = open(file, "wt")
         fin.write(data)
         fin.close()
 
     # Local deployment
-    if deploymenthost.type is 0:
+    if deploymenthost.type == 0:
         if not os.path.isdir(deploymenthost.path):
             os.makedirs(deploymenthost.path)
         else:
@@ -194,7 +195,7 @@ def deploy_release(request, release_id, deploymenthost_id):
             shutil.move(os.path.join(tmp_path, file), deploymenthost.path)
 
     # FTP deployment
-    elif deploymenthost.type is 1:
+    elif deploymenthost.type == 1:
         # Check if host is available
         try:
             ftp = ftplib.FTP(deploymenthost.host)
@@ -238,7 +239,7 @@ def deploy_release(request, release_id, deploymenthost_id):
         shutil.rmtree(tmp_path, ignore_errors=True)
 
     # SSH deployment
-    elif deploymenthost.type is 2:
+    elif deploymenthost.type == 2:
         # Check if host is available
         # try:
         # client = paramiko.SSHClient()

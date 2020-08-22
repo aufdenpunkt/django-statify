@@ -54,8 +54,14 @@ class DeploymentHost(models.Model):
         (1, _('Key')),
     )
 
+    SCHEME_CHOICES = (
+        ('http', 'http'),
+        ('https', 'https'),
+    )
+
     title = models.CharField(_('Title'), max_length=100)
-    target_domain = models.CharField(_('Target domain'), max_length=255, help_text=_('Will be used to replace domains inside of absolute links (e.g. www.example.com)'))
+    target_scheme = models.CharField(_('Target scheme'), max_length=255, choices=SCHEME_CHOICES)
+    target_domain = models.CharField(_('Target domain'), max_length=255, help_text=_('e.g. www.example.com'))
     url = models.URLField(_('URL'), blank=True, help_text=_('URL to view the deployed result.'))
     type = models.IntegerField(_('Type'), choices=TYPE_CHOICES)
     host = models.CharField(_('Host'), max_length=80, blank=True, null=True, help_text=_('e.g. ssh.server.com'))

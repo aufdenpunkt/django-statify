@@ -78,7 +78,7 @@ def delete_handler(sender, **kwargs):
 
     # If the project is using django-cms
     # Delete URL from translation
-    if settings.STATIFY_USE_CMS and model is 'Title':
+    if settings.STATIFY_USE_CMS and model == 'Title':
         instance = kwargs.get('instance')
 
         if instance.path:
